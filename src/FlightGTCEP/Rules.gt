@@ -1,0 +1,78 @@
+import "platform:/resource/Flights/model/Flights.ecore"
+import "http://www.eclipse.org/emf/2002/Ecore"
+
+pattern examplePattern() {
+	object: Airport
+}
+
+/*
+ * track new/updated flights in a pattern for Apama to filter delayed flights
+ */
+pattern flightWithRoute {
+	route: Route
+	flight: Flight {
+		-route->route
+	}
+}
+
+/*
+ * find travels in flight -> remaining capacity
+ */
+pattern flightInTravel {
+	travel: Travel
+	flight: Flight {
+		-travels->travel
+	}
+}
+
+/*
+ * find travels with connecting flights
+ */
+pattern travelHasConnectingFlight {
+	transitAirport: Airport
+	arrivalGate: Gate
+	departingGate: Gate
+	route: Route {
+		-trg -> transitAirport
+	}
+	flight: Flight {
+		-route -> route
+		-trg -> arrivalGate
+	}
+	conectingRoute: Route {
+		-src -> transitAirport
+	}
+	conectingFlight: Flight {
+		-route -> conectingRoute
+		-src -> departingGate
+	}
+	travel: Travel {
+		-flights -> flight
+		-flights -> conectingFlight
+	}
+}
+
+
+pattern replacmentConnectingFlight(travelID:EString,oldFlightID:EString) refines travelHasConnectingFlight {
+	conectingFlight: Flight {
+		.ID==param::oldFlightID
+	}
+	targetAirport: Airport
+	conectingRoute: Route {
+		-trg -> targetAirport
+	}
+	replacementRoute: Route {
+		-trg -> targetAirport
+		-src -> transitAirport
+	}
+	replacementFlight: Flight {
+		.departure > conectingFlight.departure
+		-route -> replacementRoute
+		// plane free spaces?
+	}
+	travel: Travel {
+		.ID==param::travelID
+	}
+	
+	
+}

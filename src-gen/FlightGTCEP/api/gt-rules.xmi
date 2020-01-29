@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ASCII"?>
+<GTLanguage:GTRuleSet xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:GTLanguage="platform:/resource/org.emoflon.ibex.gt/model/Gt.ecore">
+  <rules name="examplePattern" documentation="" ruleNodes="//@rules.0/@nodes.0">
+    <nodes name="object">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
+    </nodes>
+  </rules>
+  <rules name="flightInTravel" documentation="find travels in flight -> remaining capacity" ruleNodes="//@rules.1/@nodes.0 //@rules.1/@nodes.1">
+    <nodes name="travel">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
+    </nodes>
+    <nodes name="flight">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+    </nodes>
+  </rules>
+  <rules name="flightWithRoute" documentation="track new/updated flights in a pattern for Apama to filter delayed flights" ruleNodes="//@rules.2/@nodes.0 //@rules.2/@nodes.1">
+    <nodes name="route">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+    </nodes>
+    <nodes name="flight">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+    </nodes>
+  </rules>
+  <rules name="replacmentConnectingFlight" documentation="" ruleNodes="//@rules.3/@nodes.0 //@rules.3/@nodes.1 //@rules.3/@nodes.2 //@rules.3/@nodes.3 //@rules.3/@nodes.4 //@rules.3/@nodes.5 //@rules.3/@nodes.6 //@rules.3/@nodes.7 //@rules.3/@nodes.8 //@rules.3/@nodes.9 //@rules.3/@nodes.10">
+    <nodes name="arrivalGate">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
+    </nodes>
+    <nodes name="conectingFlight">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+    </nodes>
+    <nodes name="conectingRoute">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+    </nodes>
+    <nodes name="departingGate">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
+    </nodes>
+    <nodes name="flight">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+    </nodes>
+    <nodes name="replacementFlight">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+    </nodes>
+    <nodes name="replacementRoute">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+    </nodes>
+    <nodes name="route">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+    </nodes>
+    <nodes name="targetAirport">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
+    </nodes>
+    <nodes name="transitAirport">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
+    </nodes>
+    <nodes name="travel">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
+    </nodes>
+    <parameters name="travelID">
+      <type href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters name="oldFlightID">
+      <type href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+  </rules>
+  <rules name="travelHasConnectingFlight" documentation="find travels with connecting flights" ruleNodes="//@rules.4/@nodes.0 //@rules.4/@nodes.1 //@rules.4/@nodes.2 //@rules.4/@nodes.3 //@rules.4/@nodes.4 //@rules.4/@nodes.5 //@rules.4/@nodes.6 //@rules.4/@nodes.7">
+    <nodes name="transitAirport">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
+    </nodes>
+    <nodes name="arrivalGate">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
+    </nodes>
+    <nodes name="departingGate">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
+    </nodes>
+    <nodes name="route">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+    </nodes>
+    <nodes name="flight">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+    </nodes>
+    <nodes name="conectingRoute">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+    </nodes>
+    <nodes name="conectingFlight">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+    </nodes>
+    <nodes name="travel">
+      <type href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
+    </nodes>
+  </rules>
+</GTLanguage:GTRuleSet>
