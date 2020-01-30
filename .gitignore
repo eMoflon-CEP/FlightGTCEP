@@ -6,8 +6,8 @@
 
 # Generated files
 /src-gen/*
-#/bin/*
-#/debug/*
+/bin/*
+/debug/*
 
 # BlueJ files
 *.ctxt
