@@ -1,1030 +1,236 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<HiPEPattern:HiPEPatternContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:HiPEPattern="platform:/resource/hipe.pattern/model/HiPEPattern" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xsi:schemaLocation="platform:/resource/hipe.pattern/model/HiPEPattern java://hipe.pattern.HiPEPatternPackage http://www.eclipse.org/emf/2002/Ecore java://org.eclipse.emf.ecore.EcorePackage">
-  <patterns xmi:type="HiPEPattern:HiPEPattern" name="examplePattern" partialPatterns="//@patterns.5">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="object" invokes="//@patterns.5/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPattern" name="flightInTravel" partialPatterns="//@patterns.6">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_travels" source="//@patterns.1/@nodes.0" target="//@patterns.1/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/travels"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokes="//@patterns.6/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokes="//@patterns.6/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPattern" name="flightWithRoute" partialPatterns="//@patterns.9">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.2/@nodes.0" target="//@patterns.2/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokes="//@patterns.9/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokes="//@patterns.9/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPattern" name="replacmentConnectingFlight" partialPatterns="//@patterns.12">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.3/@nodes.10" target="//@patterns.3/@nodes.4">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.3/@nodes.10" target="//@patterns.3/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.3/@nodes.1" target="//@patterns.3/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.3/@nodes.4" target="//@patterns.3/@nodes.7">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.3/@nodes.5" target="//@patterns.3/@nodes.6">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.3/@nodes.1" target="//@patterns.3/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.3/@nodes.2" target="//@patterns.3/@nodes.9">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.3/@nodes.6" target="//@patterns.3/@nodes.9">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.3/@nodes.2" target="//@patterns.3/@nodes.8">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@patterns.3/@nodes.4" target="//@patterns.3/@nodes.0">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.3/@nodes.6" target="//@patterns.3/@nodes.8">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.3/@nodes.7" target="//@patterns.3/@nodes.9">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <attributes xmi:type="HiPEPattern:HiPEAttribute" name="ID" node="//@patterns.12/@nodes.9" value="org.eclipse.emf.ecore.impl.EAttributeImpl@1f0175a1 (name: ID) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)">
-      <eAttribute xmi:type="ecore:EAttribute" href="platform:/resource/Flights/model/Flights.ecore#//FlightObject/ID"/>
-    </attributes>
-    <attributes xmi:type="HiPEPattern:HiPEAttribute" name="ID" node="//@patterns.12/@nodes.8" value="org.eclipse.emf.ecore.impl.EAttributeImpl@1f0175a1 (name: ID) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)">
-      <eAttribute xmi:type="ecore:EAttribute" href="platform:/resource/Flights/model/Flights.ecore#//FlightObject/ID"/>
-    </attributes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokes="//@patterns.12/@nodes.7">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokes="//@patterns.12/@nodes.9">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokes="//@patterns.12/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokes="//@patterns.12/@nodes.10">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokes="//@patterns.12/@nodes.6">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementFlight" invokes="//@patterns.12/@nodes.4">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementRoute" invokes="//@patterns.12/@nodes.3">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokes="//@patterns.12/@nodes.5">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="targetAirport" invokes="//@patterns.12/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokes="//@patterns.12/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokes="//@patterns.12/@nodes.8">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPattern" name="travelHasConnectingFlight" partialPatterns="//@patterns.46">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.4/@nodes.7" target="//@patterns.4/@nodes.4">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.4/@nodes.7" target="//@patterns.4/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.4/@nodes.4" target="//@patterns.4/@nodes.5">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.4/@nodes.1" target="//@patterns.4/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.4/@nodes.2" target="//@patterns.4/@nodes.6">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.4/@nodes.1" target="//@patterns.4/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.4/@nodes.5" target="//@patterns.4/@nodes.6">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@patterns.4/@nodes.4" target="//@patterns.4/@nodes.0">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokes="//@patterns.46/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokes="//@patterns.46/@nodes.4">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokes="//@patterns.46/@nodes.5">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokes="//@patterns.46/@nodes.6">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokes="//@patterns.46/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokes="//@patterns.46/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokes="//@patterns.46/@nodes.3">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokes="//@patterns.46/@nodes.7">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="examplePattern_1" parentPattern="//@patterns.0">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="object" invokedBy="//@patterns.0/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightInTravel_2" partialPatterns="//@patterns.7 //@patterns.8" parentPattern="//@patterns.1">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_travels" source="//@patterns.6/@nodes.0" target="//@patterns.6/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/travels"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.1/@nodes.0" invokes="//@patterns.7/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.1/@nodes.1" invokes="//@patterns.8/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightInTravel_3" parentPattern="//@patterns.6">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.6/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightInTravel_4" parentPattern="//@patterns.6">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.6/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightWithRoute_5" partialPatterns="//@patterns.10 //@patterns.11" parentPattern="//@patterns.2">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.9/@nodes.0" target="//@patterns.9/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.2/@nodes.0" invokes="//@patterns.10/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.2/@nodes.1" invokes="//@patterns.11/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightWithRoute_6" parentPattern="//@patterns.9">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.9/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightWithRoute_7" parentPattern="//@patterns.9">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.9/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_8" partialPatterns="//@patterns.13 //@patterns.27" parentPattern="//@patterns.3" overlaps="//@patterns.12/@nodes.0 //@patterns.12/@nodes.1">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.12/@nodes.0" target="//@patterns.12/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.12/@nodes.0" target="//@patterns.12/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.12/@nodes.3" target="//@patterns.12/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.12/@nodes.4" target="//@patterns.12/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.12/@nodes.3" target="//@patterns.12/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.12/@nodes.5" target="//@patterns.12/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.12/@nodes.6" target="//@patterns.12/@nodes.5">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@patterns.12/@nodes.6" target="//@patterns.12/@nodes.7">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.12/@nodes.8" target="//@patterns.12/@nodes.6">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.12/@nodes.8" target="//@patterns.12/@nodes.9">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.12/@nodes.9" target="//@patterns.12/@nodes.0">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.12/@nodes.9" target="//@patterns.12/@nodes.10">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <attributes xmi:type="HiPEPattern:HiPEAttribute" name="departure" node="//@patterns.12/@nodes.4" value="org.eclipse.emf.ecore.impl.EAttributeImpl@5451cc30 (name: departure) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)">
-      <eAttribute xmi:type="ecore:EAttribute" href="platform:/resource/Flights/model/Flights.ecore#//Flight/departure"/>
-    </attributes>
-    <attributes xmi:type="HiPEPattern:HiPEAttribute" node="//@patterns.12/@nodes.9" value="org.eclipse.emf.ecore.impl.EAttributeImpl@5451cc30 (name: departure) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)">
-      <eAttribute xmi:type="ecore:EAttribute" href="platform:/resource/Flights/model/Flights.ecore#//Flight/departure"/>
-    </attributes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.3/@nodes.2" invokes="//@patterns.13/@nodes.0 //@patterns.27/@nodes.6">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.3/@nodes.9" invokes="//@patterns.13/@nodes.1 //@patterns.27/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="targetAirport" invokedBy="//@patterns.3/@nodes.8" invokes="//@patterns.13/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementRoute" invokedBy="//@patterns.3/@nodes.6" invokes="//@patterns.13/@nodes.3">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementFlight" attributes="//@patterns.12/@attributes.0" invokedBy="//@patterns.3/@nodes.5" invokes="//@patterns.13/@nodes.4">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.3/@nodes.7" invokes="//@patterns.27/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.3/@nodes.4" invokes="//@patterns.27/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokedBy="//@patterns.3/@nodes.0" invokes="//@patterns.27/@nodes.3">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" attributes="//@patterns.3/@attributes.1" invokedBy="//@patterns.3/@nodes.10" invokes="//@patterns.27/@nodes.4">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" attributes="//@patterns.3/@attributes.0 //@patterns.12/@attributes.1" invokedBy="//@patterns.3/@nodes.1" invokes="//@patterns.27/@nodes.5">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.3/@nodes.3" invokes="//@patterns.27/@nodes.7">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.12/@nodes.9" rightNode="//@patterns.12/@nodes.4"/>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.12/@nodes.6" rightNode="//@patterns.12/@nodes.4"/>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.12/@nodes.3" rightNode="//@patterns.12/@nodes.5"/>
-    <attributeConstraints xmi:type="HiPEPattern:RelationalConstraint" type="Greater" leftAttribute="//@patterns.12/@attributes.0" rightAttribute="//@patterns.12/@attributes.1"/>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_9" partialPatterns="//@patterns.14 //@patterns.20" parentPattern="//@patterns.12" overlaps="//@patterns.13/@nodes.1 //@patterns.13/@nodes.2">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.13/@nodes.0" target="//@patterns.13/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.13/@nodes.0" target="//@patterns.13/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.13/@nodes.3" target="//@patterns.13/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.13/@nodes.4" target="//@patterns.13/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.13/@nodes.3" target="//@patterns.13/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.12/@nodes.0" invokes="//@patterns.14/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.12/@nodes.1" invokes="//@patterns.14/@nodes.1 //@patterns.20/@nodes.3">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="targetAirport" invokedBy="//@patterns.12/@nodes.2" invokes="//@patterns.14/@nodes.2 //@patterns.20/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementRoute" invokedBy="//@patterns.12/@nodes.3" invokes="//@patterns.20/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementFlight" invokedBy="//@patterns.12/@nodes.4" invokes="//@patterns.20/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.13/@nodes.0" rightNode="//@patterns.13/@nodes.3"/>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_10" partialPatterns="//@patterns.15 //@patterns.18" parentPattern="//@patterns.13" overlaps="//@patterns.14/@nodes.0">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.14/@nodes.0" target="//@patterns.14/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.14/@nodes.0" target="//@patterns.14/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.13/@nodes.0" invokes="//@patterns.15/@nodes.0 //@patterns.18/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.13/@nodes.1" invokes="//@patterns.15/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="targetAirport" invokedBy="//@patterns.13/@nodes.2" invokes="//@patterns.18/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.14/@nodes.2" rightNode="//@patterns.14/@nodes.1"/>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_11" partialPatterns="//@patterns.16 //@patterns.17" parentPattern="//@patterns.14">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.15/@nodes.0" target="//@patterns.15/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.14/@nodes.0" invokes="//@patterns.16/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.14/@nodes.1" invokes="//@patterns.17/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_12" parentPattern="//@patterns.15 //@patterns.18 //@patterns.43">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.15/@nodes.0 //@patterns.18/@nodes.0 //@patterns.43/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_13" parentPattern="//@patterns.15 //@patterns.26 //@patterns.29">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.15/@nodes.1 //@patterns.26/@nodes.1 //@patterns.29/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_14" partialPatterns="//@patterns.16 //@patterns.19" parentPattern="//@patterns.14">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.18/@nodes.0" target="//@patterns.18/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.14/@nodes.0" invokes="//@patterns.16/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="targetAirport" invokedBy="//@patterns.14/@nodes.2" invokes="//@patterns.19/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_15" parentPattern="//@patterns.18 //@patterns.21">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="targetAirport" invokedBy="//@patterns.18/@nodes.1 //@patterns.21/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_16" partialPatterns="//@patterns.21 //@patterns.23" parentPattern="//@patterns.13" overlaps="//@patterns.20/@nodes.0">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.20/@nodes.0" target="//@patterns.20/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.20/@nodes.2" target="//@patterns.20/@nodes.0">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.20/@nodes.0" target="//@patterns.20/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementRoute" invokedBy="//@patterns.13/@nodes.3" invokes="//@patterns.21/@nodes.0 //@patterns.23/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="targetAirport" invokedBy="//@patterns.13/@nodes.2" invokes="//@patterns.21/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementFlight" invokedBy="//@patterns.13/@nodes.4" invokes="//@patterns.23/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.13/@nodes.1" invokes="//@patterns.23/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.20/@nodes.1" rightNode="//@patterns.20/@nodes.3"/>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_17" partialPatterns="//@patterns.22 //@patterns.19" parentPattern="//@patterns.20">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.21/@nodes.0" target="//@patterns.21/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementRoute" invokedBy="//@patterns.20/@nodes.0" invokes="//@patterns.22/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="targetAirport" invokedBy="//@patterns.20/@nodes.1" invokes="//@patterns.19/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_18" parentPattern="//@patterns.21 //@patterns.24 //@patterns.26">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementRoute" invokedBy="//@patterns.21/@nodes.0 //@patterns.24/@nodes.1 //@patterns.26/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_19" partialPatterns="//@patterns.24 //@patterns.26" parentPattern="//@patterns.20" overlaps="//@patterns.23/@nodes.1">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.23/@nodes.0" target="//@patterns.23/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.23/@nodes.1" target="//@patterns.23/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementFlight" invokedBy="//@patterns.20/@nodes.2" invokes="//@patterns.24/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementRoute" invokedBy="//@patterns.20/@nodes.0" invokes="//@patterns.24/@nodes.1 //@patterns.26/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.20/@nodes.3" invokes="//@patterns.26/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_20" partialPatterns="//@patterns.25 //@patterns.22" parentPattern="//@patterns.23">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.24/@nodes.0" target="//@patterns.24/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementFlight" invokedBy="//@patterns.23/@nodes.0" invokes="//@patterns.25/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementRoute" invokedBy="//@patterns.23/@nodes.1" invokes="//@patterns.22/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_21" parentPattern="//@patterns.24">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementFlight" invokedBy="//@patterns.24/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_22" partialPatterns="//@patterns.22 //@patterns.17" parentPattern="//@patterns.23">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.26/@nodes.0" target="//@patterns.26/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="replacementRoute" invokedBy="//@patterns.23/@nodes.1" invokes="//@patterns.22/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.23/@nodes.2" invokes="//@patterns.17/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_23" partialPatterns="//@patterns.28 //@patterns.36" parentPattern="//@patterns.12" overlaps="//@patterns.27/@nodes.2">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.27/@nodes.0" target="//@patterns.27/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.27/@nodes.2" target="//@patterns.27/@nodes.0">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@patterns.27/@nodes.2" target="//@patterns.27/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.27/@nodes.4" target="//@patterns.27/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.27/@nodes.4" target="//@patterns.27/@nodes.5">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.27/@nodes.5" target="//@patterns.27/@nodes.6">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.27/@nodes.5" target="//@patterns.27/@nodes.7">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.12/@nodes.5" invokes="//@patterns.28/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.12/@nodes.1" invokes="//@patterns.28/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.12/@nodes.6" invokes="//@patterns.28/@nodes.2 //@patterns.36/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokedBy="//@patterns.12/@nodes.7" invokes="//@patterns.28/@nodes.3">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.12/@nodes.8" invokes="//@patterns.36/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.12/@nodes.9" invokes="//@patterns.36/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.12/@nodes.0" invokes="//@patterns.36/@nodes.3">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.12/@nodes.10" invokes="//@patterns.36/@nodes.4">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.27/@nodes.3" rightNode="//@patterns.27/@nodes.7"/>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.27/@nodes.6" rightNode="//@patterns.27/@nodes.0"/>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_24" partialPatterns="//@patterns.29 //@patterns.31" parentPattern="//@patterns.27" overlaps="//@patterns.28/@nodes.0">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.28/@nodes.0" target="//@patterns.28/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.28/@nodes.2" target="//@patterns.28/@nodes.0">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@patterns.28/@nodes.2" target="//@patterns.28/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.27/@nodes.0" invokes="//@patterns.29/@nodes.0 //@patterns.31/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.27/@nodes.1" invokes="//@patterns.29/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.27/@nodes.2" invokes="//@patterns.31/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokedBy="//@patterns.27/@nodes.3" invokes="//@patterns.31/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_25" partialPatterns="//@patterns.30 //@patterns.17" parentPattern="//@patterns.28">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.29/@nodes.0" target="//@patterns.29/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.28/@nodes.0" invokes="//@patterns.30/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.28/@nodes.1" invokes="//@patterns.17/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_26" parentPattern="//@patterns.29 //@patterns.32">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.29/@nodes.0 //@patterns.32/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_27" partialPatterns="//@patterns.32 //@patterns.34" parentPattern="//@patterns.28" overlaps="//@patterns.31/@nodes.0">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.31/@nodes.0" target="//@patterns.31/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@patterns.31/@nodes.0" target="//@patterns.31/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.28/@nodes.2" invokes="//@patterns.32/@nodes.0 //@patterns.34/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.28/@nodes.0" invokes="//@patterns.32/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokedBy="//@patterns.28/@nodes.3" invokes="//@patterns.34/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_28" partialPatterns="//@patterns.33 //@patterns.30" parentPattern="//@patterns.31">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.32/@nodes.0" target="//@patterns.32/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.31/@nodes.0" invokes="//@patterns.33/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.31/@nodes.1" invokes="//@patterns.30/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_29" parentPattern="//@patterns.32 //@patterns.34 //@patterns.38">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.32/@nodes.0 //@patterns.34/@nodes.0 //@patterns.38/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_30" partialPatterns="//@patterns.33 //@patterns.35" parentPattern="//@patterns.31">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@patterns.34/@nodes.0" target="//@patterns.34/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.31/@nodes.0" invokes="//@patterns.33/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokedBy="//@patterns.31/@nodes.2" invokes="//@patterns.35/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_31" parentPattern="//@patterns.34">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokedBy="//@patterns.34/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_32" partialPatterns="//@patterns.37 //@patterns.42" parentPattern="//@patterns.27" overlaps="//@patterns.36/@nodes.2">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.36/@nodes.0" target="//@patterns.36/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.36/@nodes.0" target="//@patterns.36/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.36/@nodes.2" target="//@patterns.36/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.36/@nodes.2" target="//@patterns.36/@nodes.4">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.27/@nodes.4" invokes="//@patterns.37/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.27/@nodes.2" invokes="//@patterns.37/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.27/@nodes.5" invokes="//@patterns.37/@nodes.2 //@patterns.42/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.27/@nodes.6" invokes="//@patterns.42/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.27/@nodes.7" invokes="//@patterns.42/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_33" partialPatterns="//@patterns.38 //@patterns.40" parentPattern="//@patterns.36" overlaps="//@patterns.37/@nodes.0">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.37/@nodes.0" target="//@patterns.37/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.37/@nodes.0" target="//@patterns.37/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.36/@nodes.0" invokes="//@patterns.38/@nodes.0 //@patterns.40/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.36/@nodes.1" invokes="//@patterns.38/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.36/@nodes.2" invokes="//@patterns.40/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.37/@nodes.2" rightNode="//@patterns.37/@nodes.1"/>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_34" partialPatterns="//@patterns.39 //@patterns.33" parentPattern="//@patterns.37">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.38/@nodes.0" target="//@patterns.38/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.37/@nodes.0" invokes="//@patterns.39/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.37/@nodes.1" invokes="//@patterns.33/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_35" parentPattern="//@patterns.38 //@patterns.40">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.38/@nodes.0 //@patterns.40/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_36" partialPatterns="//@patterns.39 //@patterns.41" parentPattern="//@patterns.37">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.40/@nodes.0" target="//@patterns.40/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.37/@nodes.0" invokes="//@patterns.39/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.37/@nodes.2" invokes="//@patterns.41/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_37" parentPattern="//@patterns.40 //@patterns.43 //@patterns.44">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.40/@nodes.1 //@patterns.43/@nodes.0 //@patterns.44/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_38" partialPatterns="//@patterns.43 //@patterns.44" parentPattern="//@patterns.36" overlaps="//@patterns.42/@nodes.0">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.42/@nodes.0" target="//@patterns.42/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.42/@nodes.0" target="//@patterns.42/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.36/@nodes.2" invokes="//@patterns.43/@nodes.0 //@patterns.44/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.36/@nodes.3" invokes="//@patterns.43/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.36/@nodes.4" invokes="//@patterns.44/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_39" partialPatterns="//@patterns.41 //@patterns.16" parentPattern="//@patterns.42">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.43/@nodes.0" target="//@patterns.43/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.42/@nodes.0" invokes="//@patterns.41/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.42/@nodes.1" invokes="//@patterns.16/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_40" partialPatterns="//@patterns.41 //@patterns.45" parentPattern="//@patterns.42">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.44/@nodes.0" target="//@patterns.44/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.42/@nodes.0" invokes="//@patterns.41/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.42/@nodes.2" invokes="//@patterns.45/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_41" parentPattern="//@patterns.44">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.44/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_42" partialPatterns="//@patterns.47 //@patterns.56" parentPattern="//@patterns.4" overlaps="//@patterns.46/@nodes.0 //@patterns.46/@nodes.3">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@patterns.46/@nodes.0" target="//@patterns.46/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.46/@nodes.0" target="//@patterns.46/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.46/@nodes.2" target="//@patterns.46/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.46/@nodes.4" target="//@patterns.46/@nodes.5">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.46/@nodes.5" target="//@patterns.46/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.46/@nodes.4" target="//@patterns.46/@nodes.6">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.46/@nodes.7" target="//@patterns.46/@nodes.0">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.46/@nodes.7" target="//@patterns.46/@nodes.4">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.4/@nodes.4" invokes="//@patterns.47/@nodes.0 //@patterns.56/@nodes.5">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokedBy="//@patterns.4/@nodes.0" invokes="//@patterns.47/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.4/@nodes.5" invokes="//@patterns.47/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.4/@nodes.6" invokes="//@patterns.47/@nodes.3 //@patterns.56/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.4/@nodes.1" invokes="//@patterns.56/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.4/@nodes.2" invokes="//@patterns.56/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.4/@nodes.3" invokes="//@patterns.56/@nodes.3">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.4/@nodes.7" invokes="//@patterns.56/@nodes.4">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.46/@nodes.1" rightNode="//@patterns.46/@nodes.6"/>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.46/@nodes.5" rightNode="//@patterns.46/@nodes.2"/>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_43" partialPatterns="//@patterns.48 //@patterns.51" parentPattern="//@patterns.46" overlaps="//@patterns.47/@nodes.0">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@patterns.47/@nodes.0" target="//@patterns.47/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.47/@nodes.0" target="//@patterns.47/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.47/@nodes.2" target="//@patterns.47/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.46/@nodes.0" invokes="//@patterns.48/@nodes.0 //@patterns.51/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokedBy="//@patterns.46/@nodes.1" invokes="//@patterns.48/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.46/@nodes.2" invokes="//@patterns.51/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.46/@nodes.3" invokes="//@patterns.51/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_44" partialPatterns="//@patterns.49 //@patterns.50" parentPattern="//@patterns.47">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@patterns.48/@nodes.0" target="//@patterns.48/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.47/@nodes.0" invokes="//@patterns.49/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokedBy="//@patterns.47/@nodes.1" invokes="//@patterns.50/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_45" parentPattern="//@patterns.48 //@patterns.52 //@patterns.66">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.48/@nodes.0 //@patterns.52/@nodes.0 //@patterns.66/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_46" parentPattern="//@patterns.48">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" invokedBy="//@patterns.48/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_47" partialPatterns="//@patterns.52 //@patterns.54" parentPattern="//@patterns.47" overlaps="//@patterns.51/@nodes.1">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.51/@nodes.0" target="//@patterns.51/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.51/@nodes.1" target="//@patterns.51/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.47/@nodes.0" invokes="//@patterns.52/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.47/@nodes.2" invokes="//@patterns.52/@nodes.1 //@patterns.54/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.47/@nodes.3" invokes="//@patterns.54/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_48" partialPatterns="//@patterns.49 //@patterns.53" parentPattern="//@patterns.51">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.52/@nodes.0" target="//@patterns.52/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.51/@nodes.0" invokes="//@patterns.49/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.51/@nodes.1" invokes="//@patterns.53/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_49" parentPattern="//@patterns.52 //@patterns.54">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.52/@nodes.1 //@patterns.54/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_50" partialPatterns="//@patterns.53 //@patterns.55" parentPattern="//@patterns.51">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@patterns.54/@nodes.0" target="//@patterns.54/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="route" invokedBy="//@patterns.51/@nodes.1" invokes="//@patterns.53/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.51/@nodes.2" invokes="//@patterns.55/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_51" parentPattern="//@patterns.54 //@patterns.61">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.54/@nodes.1 //@patterns.61/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_52" partialPatterns="//@patterns.57 //@patterns.62" parentPattern="//@patterns.46" overlaps="//@patterns.56/@nodes.0">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.56/@nodes.0" target="//@patterns.56/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.56/@nodes.1" target="//@patterns.56/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.56/@nodes.0" target="//@patterns.56/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.56/@nodes.4" target="//@patterns.56/@nodes.5">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.56/@nodes.4" target="//@patterns.56/@nodes.0">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.46/@nodes.4" invokes="//@patterns.57/@nodes.0 //@patterns.62/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.46/@nodes.5" invokes="//@patterns.57/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.46/@nodes.3" invokes="//@patterns.57/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.46/@nodes.6" invokes="//@patterns.62/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.46/@nodes.7" invokes="//@patterns.62/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.46/@nodes.0" invokes="//@patterns.62/@nodes.3">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_53" partialPatterns="//@patterns.58 //@patterns.61" parentPattern="//@patterns.56" overlaps="//@patterns.57/@nodes.1">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.57/@nodes.0" target="//@patterns.57/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.57/@nodes.1" target="//@patterns.57/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.56/@nodes.0" invokes="//@patterns.58/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.56/@nodes.1" invokes="//@patterns.58/@nodes.1 //@patterns.61/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.56/@nodes.2" invokes="//@patterns.61/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_54" partialPatterns="//@patterns.59 //@patterns.60" parentPattern="//@patterns.57">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@patterns.58/@nodes.0" target="//@patterns.58/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.57/@nodes.0" invokes="//@patterns.59/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.57/@nodes.1" invokes="//@patterns.60/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_55" parentPattern="//@patterns.58 //@patterns.63 //@patterns.68">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.58/@nodes.0 //@patterns.63/@nodes.0 //@patterns.68/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_56" parentPattern="//@patterns.58 //@patterns.61">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.58/@nodes.1 //@patterns.61/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_57" partialPatterns="//@patterns.60 //@patterns.55" parentPattern="//@patterns.57">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@patterns.61/@nodes.0" target="//@patterns.61/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" invokedBy="//@patterns.57/@nodes.1" invokes="//@patterns.60/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" invokedBy="//@patterns.57/@nodes.2" invokes="//@patterns.55/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_58" partialPatterns="//@patterns.63 //@patterns.65" parentPattern="//@patterns.56" overlaps="//@patterns.62/@nodes.0">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.62/@nodes.0" target="//@patterns.62/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.62/@nodes.2" target="//@patterns.62/@nodes.3">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.62/@nodes.2" target="//@patterns.62/@nodes.0">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.56/@nodes.0" invokes="//@patterns.63/@nodes.0 //@patterns.65/@nodes.2">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.56/@nodes.3" invokes="//@patterns.63/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.56/@nodes.4" invokes="//@patterns.65/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.56/@nodes.5" invokes="//@patterns.65/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_59" partialPatterns="//@patterns.59 //@patterns.64" parentPattern="//@patterns.62">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@patterns.63/@nodes.0" target="//@patterns.63/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.62/@nodes.0" invokes="//@patterns.59/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.62/@nodes.1" invokes="//@patterns.64/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_60" parentPattern="//@patterns.63">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" invokedBy="//@patterns.63/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_61" partialPatterns="//@patterns.66 //@patterns.68" parentPattern="//@patterns.62" overlaps="//@patterns.65/@nodes.0">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.65/@nodes.0" target="//@patterns.65/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.65/@nodes.0" target="//@patterns.65/@nodes.2">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.62/@nodes.2" invokes="//@patterns.66/@nodes.0 //@patterns.68/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.62/@nodes.3" invokes="//@patterns.66/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.62/@nodes.0" invokes="//@patterns.68/@nodes.1">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-    <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@patterns.65/@nodes.2" rightNode="//@patterns.65/@nodes.1"/>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_62" partialPatterns="//@patterns.67 //@patterns.49" parentPattern="//@patterns.65">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.66/@nodes.0" target="//@patterns.66/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.65/@nodes.0" invokes="//@patterns.67/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="flight" invokedBy="//@patterns.65/@nodes.1" invokes="//@patterns.49/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_63" parentPattern="//@patterns.66 //@patterns.68">
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.66/@nodes.0 //@patterns.68/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-  </patterns>
-  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_64" partialPatterns="//@patterns.67 //@patterns.59" parentPattern="//@patterns.65">
-    <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@patterns.68/@nodes.0" target="//@patterns.68/@nodes.1">
-      <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
-    </edges>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="travel" invokedBy="//@patterns.65/@nodes.0" invokes="//@patterns.67/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
-    </nodes>
-    <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" invokedBy="//@patterns.65/@nodes.2" invokes="//@patterns.59/@nodes.0">
-      <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
-    </nodes>
-  </patterns>
-</HiPEPattern:HiPEPatternContainer>
+<HiPEPattern:HiPEContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:HiPEPattern="platform:/resource/hipe.pattern/model/HiPEPattern" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xsi:schemaLocation="platform:/resource/hipe.pattern/model/HiPEPattern java://hipe.pattern.HiPEPatternPackage http://www.eclipse.org/emf/2002/Ecore java://org.eclipse.emf.ecore.EcorePackage">
+  <patterns xmi:type="HiPEPattern:HiPEPattern" name="examplePattern" partialPatterns="//@patterns.5" nodes="//@nodes.0"/>
+  <patterns xmi:type="HiPEPattern:HiPEPattern" name="flightInTravel" partialPatterns="//@patterns.6" nodes="//@nodes.1 //@nodes.2" edges="//@edges.0"/>
+  <patterns xmi:type="HiPEPattern:HiPEPattern" name="flightWithRoute" partialPatterns="//@patterns.9" nodes="//@nodes.3 //@nodes.4" edges="//@edges.1"/>
+  <patterns xmi:type="HiPEPattern:HiPEPattern" name="replacmentConnectingFlight" partialPatterns="//@patterns.12" attributes="//@attributes.0 //@attributes.1 //@attributes.2 //@attributes.3" nodes="//@nodes.5 //@nodes.6 //@nodes.7 //@nodes.8 //@nodes.9 //@nodes.10 //@nodes.11 //@nodes.12 //@nodes.13 //@nodes.14 //@nodes.15" edges="//@edges.2 //@edges.3 //@edges.4 //@edges.5 //@edges.6 //@edges.7 //@edges.8 //@edges.9 //@edges.10 //@edges.11 //@edges.12 //@edges.13"/>
+  <patterns xmi:type="HiPEPattern:HiPEPattern" name="travelHasConnectingFlight" partialPatterns="//@patterns.46" nodes="//@nodes.16 //@nodes.17 //@nodes.18 //@nodes.19 //@nodes.20 //@nodes.21 //@nodes.22 //@nodes.23" edges="//@edges.14 //@edges.15 //@edges.16 //@edges.17 //@edges.18 //@edges.19 //@edges.20 //@edges.21"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="examplePattern_1" nodes="//@nodes.0" parentPattern="//@patterns.0" invokedNodes="//@nodes.0" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightInTravel_2" partialPatterns="//@patterns.7 //@patterns.8" nodes="//@nodes.1 //@nodes.2" edges="//@edges.0" parentPattern="//@patterns.1" overlaps="//@nodes.1 //@nodes.2" invokedNodes="//@nodes.1 //@nodes.2" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightInTravel_3" nodes="//@nodes.1" parentPattern="//@patterns.6" invokedNodes="//@nodes.1" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightInTravel_4" nodes="//@nodes.2" parentPattern="//@patterns.6" invokedNodes="//@nodes.2" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightWithRoute_5" partialPatterns="//@patterns.10 //@patterns.11" nodes="//@nodes.3 //@nodes.4" edges="//@edges.1" parentPattern="//@patterns.2" overlaps="//@nodes.3 //@nodes.4" invokedNodes="//@nodes.3 //@nodes.4" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightWithRoute_6" nodes="//@nodes.3" parentPattern="//@patterns.9" invokedNodes="//@nodes.3" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="flightWithRoute_7" nodes="//@nodes.4" parentPattern="//@patterns.9" invokedNodes="//@nodes.4" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_8" partialPatterns="//@patterns.13 //@patterns.14" nodeConstraints="//@nodeConstraints.2 //@nodeConstraints.5 //@nodeConstraints.6" attributeConstraints="//@attributeConstraints.1" attributes="//@attributes.1 //@attributes.2" nodes="//@nodes.7 //@nodes.14 //@nodes.13 //@nodes.11 //@nodes.10 //@nodes.12 //@nodes.9 //@nodes.5 //@nodes.15 //@nodes.6 //@nodes.8" edges="//@edges.8 //@edges.10 //@edges.12 //@edges.6 //@edges.9 //@edges.13 //@edges.5 //@edges.11 //@edges.2 //@edges.3 //@edges.4 //@edges.7" parentPattern="//@patterns.3" overlaps="//@nodes.7 //@nodes.14 //@nodes.13 //@nodes.11 //@nodes.10 //@nodes.12 //@nodes.9 //@nodes.5 //@nodes.15 //@nodes.6 //@nodes.8" invokedNodes="//@nodes.7 //@nodes.14 //@nodes.13 //@nodes.11 //@nodes.10 //@nodes.12 //@nodes.9 //@nodes.5 //@nodes.15 //@nodes.6 //@nodes.8"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_9" partialPatterns="//@patterns.15 //@patterns.16" nodeConstraints="//@nodeConstraints.3" nodes="//@nodes.7 //@nodes.14 //@nodes.13 //@nodes.11 //@nodes.10" edges="//@edges.8 //@edges.10 //@edges.12 //@edges.6 //@edges.9" parentPattern="//@patterns.12" overlaps="//@nodes.7 //@nodes.14 //@nodes.13 //@nodes.11 //@nodes.10" invokedNodes="//@nodes.7 //@nodes.14 //@nodes.13 //@nodes.11 //@nodes.10"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_10" partialPatterns="//@patterns.17 //@patterns.18" nodeConstraints="//@nodeConstraints.0 //@nodeConstraints.4" nodes="//@nodes.12 //@nodes.14 //@nodes.9 //@nodes.5 //@nodes.15 //@nodes.6 //@nodes.7 //@nodes.8" edges="//@edges.13 //@edges.5 //@edges.11 //@edges.2 //@edges.3 //@edges.4 //@edges.7" parentPattern="//@patterns.12" overlaps="//@nodes.12 //@nodes.14 //@nodes.9 //@nodes.5 //@nodes.15 //@nodes.6 //@nodes.7 //@nodes.8" invokedNodes="//@nodes.12 //@nodes.14 //@nodes.9 //@nodes.5 //@nodes.15 //@nodes.6 //@nodes.7 //@nodes.8"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_11" partialPatterns="//@patterns.19 //@patterns.20" nodeConstraints="//@nodeConstraints.7" nodes="//@nodes.7 //@nodes.14 //@nodes.13" edges="//@edges.8 //@edges.10" parentPattern="//@patterns.13" overlaps="//@nodes.7 //@nodes.14 //@nodes.13" invokedNodes="//@nodes.7 //@nodes.14 //@nodes.13"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_12" partialPatterns="//@patterns.21 //@patterns.22" nodeConstraints="//@nodeConstraints.7" nodes="//@nodes.11 //@nodes.13 //@nodes.10 //@nodes.14" edges="//@edges.12 //@edges.6 //@edges.9" parentPattern="//@patterns.13" overlaps="//@nodes.11 //@nodes.13 //@nodes.10 //@nodes.14" invokedNodes="//@nodes.11 //@nodes.13 //@nodes.10 //@nodes.14"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_13" partialPatterns="//@patterns.23 //@patterns.24" nodes="//@nodes.12 //@nodes.14 //@nodes.9 //@nodes.5" edges="//@edges.13 //@edges.5 //@edges.11" parentPattern="//@patterns.14" overlaps="//@nodes.12 //@nodes.14 //@nodes.9 //@nodes.5" invokedNodes="//@nodes.12 //@nodes.14 //@nodes.9 //@nodes.5"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_14" partialPatterns="//@patterns.25 //@patterns.26" nodes="//@nodes.15 //@nodes.9 //@nodes.6 //@nodes.7 //@nodes.8" edges="//@edges.2 //@edges.3 //@edges.4 //@edges.7" parentPattern="//@patterns.14" overlaps="//@nodes.15 //@nodes.9 //@nodes.6 //@nodes.7 //@nodes.8" invokedNodes="//@nodes.15 //@nodes.9 //@nodes.6 //@nodes.7 //@nodes.8"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_15" partialPatterns="//@patterns.27 //@patterns.28" nodes="//@nodes.7 //@nodes.14" edges="//@edges.8" parentPattern="//@patterns.15" overlaps="//@nodes.7 //@nodes.14" invokedNodes="//@nodes.7 //@nodes.14" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_16" partialPatterns="//@patterns.27 //@patterns.29" nodes="//@nodes.7 //@nodes.13" edges="//@edges.10" parentPattern="//@patterns.15" overlaps="//@nodes.7 //@nodes.13" invokedNodes="//@nodes.7 //@nodes.13" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_17" partialPatterns="//@patterns.30 //@patterns.29" nodes="//@nodes.11 //@nodes.13" edges="//@edges.12" parentPattern="//@patterns.16" overlaps="//@nodes.11 //@nodes.13" invokedNodes="//@nodes.11 //@nodes.13" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_18" partialPatterns="//@patterns.31 //@patterns.32" nodes="//@nodes.10 //@nodes.11 //@nodes.14" edges="//@edges.6 //@edges.9" parentPattern="//@patterns.16" overlaps="//@nodes.10 //@nodes.11 //@nodes.14" invokedNodes="//@nodes.10 //@nodes.11 //@nodes.14"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_19" partialPatterns="//@patterns.33 //@patterns.28" nodes="//@nodes.12 //@nodes.14" edges="//@edges.13" parentPattern="//@patterns.17" overlaps="//@nodes.12 //@nodes.14" invokedNodes="//@nodes.12 //@nodes.14" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_20" partialPatterns="//@patterns.34 //@patterns.35" nodes="//@nodes.9 //@nodes.12 //@nodes.5" edges="//@edges.5 //@edges.11" parentPattern="//@patterns.17" overlaps="//@nodes.9 //@nodes.12 //@nodes.5" invokedNodes="//@nodes.9 //@nodes.12 //@nodes.5"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_21" partialPatterns="//@patterns.36 //@patterns.37" nodeConstraints="//@nodeConstraints.1" nodes="//@nodes.15 //@nodes.9 //@nodes.6" edges="//@edges.2 //@edges.3" parentPattern="//@patterns.18" overlaps="//@nodes.15 //@nodes.9 //@nodes.6" invokedNodes="//@nodes.15 //@nodes.9 //@nodes.6"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_22" partialPatterns="//@patterns.38 //@patterns.39" nodes="//@nodes.6 //@nodes.7 //@nodes.8" edges="//@edges.4 //@edges.7" parentPattern="//@patterns.18" overlaps="//@nodes.6 //@nodes.7 //@nodes.8" invokedNodes="//@nodes.6 //@nodes.7 //@nodes.8"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_23" nodes="//@nodes.7" parentPattern="//@patterns.19 //@patterns.20 //@patterns.38" invokedNodes="//@nodes.7" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_24" nodes="//@nodes.14" parentPattern="//@patterns.19 //@patterns.23 //@patterns.32" invokedNodes="//@nodes.14" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_25" nodes="//@nodes.13" parentPattern="//@patterns.20 //@patterns.21" invokedNodes="//@nodes.13" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_26" nodes="//@nodes.11" parentPattern="//@patterns.21 //@patterns.31 //@patterns.32" invokedNodes="//@nodes.11" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_27" partialPatterns="//@patterns.40 //@patterns.30" nodes="//@nodes.10 //@nodes.11" edges="//@edges.6" parentPattern="//@patterns.22" overlaps="//@nodes.10 //@nodes.11" invokedNodes="//@nodes.10 //@nodes.11" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_28" partialPatterns="//@patterns.30 //@patterns.28" nodes="//@nodes.11 //@nodes.14" edges="//@edges.9" parentPattern="//@patterns.22" overlaps="//@nodes.11 //@nodes.14" invokedNodes="//@nodes.11 //@nodes.14" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_29" nodes="//@nodes.12" parentPattern="//@patterns.23 //@patterns.34" invokedNodes="//@nodes.12" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_30" partialPatterns="//@patterns.41 //@patterns.33" nodes="//@nodes.9 //@nodes.12" edges="//@edges.5" parentPattern="//@patterns.24" overlaps="//@nodes.9 //@nodes.12" invokedNodes="//@nodes.9 //@nodes.12" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_31" partialPatterns="//@patterns.41 //@patterns.42" nodes="//@nodes.9 //@nodes.5" edges="//@edges.11" parentPattern="//@patterns.24" overlaps="//@nodes.9 //@nodes.5" invokedNodes="//@nodes.9 //@nodes.5" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_32" partialPatterns="//@patterns.43 //@patterns.41" nodes="//@nodes.15 //@nodes.9" edges="//@edges.2" parentPattern="//@patterns.25" overlaps="//@nodes.15 //@nodes.9" invokedNodes="//@nodes.15 //@nodes.9" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_33" partialPatterns="//@patterns.43 //@patterns.44" nodes="//@nodes.15 //@nodes.6" edges="//@edges.3" parentPattern="//@patterns.25" overlaps="//@nodes.15 //@nodes.6" invokedNodes="//@nodes.15 //@nodes.6" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_34" partialPatterns="//@patterns.44 //@patterns.27" nodes="//@nodes.6 //@nodes.7" edges="//@edges.4" parentPattern="//@patterns.26" overlaps="//@nodes.6 //@nodes.7" invokedNodes="//@nodes.6 //@nodes.7" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_35" partialPatterns="//@patterns.44 //@patterns.45" nodes="//@nodes.6 //@nodes.8" edges="//@edges.7" parentPattern="//@patterns.26" overlaps="//@nodes.6 //@nodes.8" invokedNodes="//@nodes.6 //@nodes.8" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_36" nodes="//@nodes.10" parentPattern="//@patterns.31" invokedNodes="//@nodes.10" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_37" nodes="//@nodes.9" parentPattern="//@patterns.34 //@patterns.35 //@patterns.36" invokedNodes="//@nodes.9" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_38" nodes="//@nodes.5" parentPattern="//@patterns.35" invokedNodes="//@nodes.5" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_39" nodes="//@nodes.15" parentPattern="//@patterns.36 //@patterns.37" invokedNodes="//@nodes.15" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_40" nodes="//@nodes.6" parentPattern="//@patterns.37 //@patterns.38 //@patterns.39" invokedNodes="//@nodes.6" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="replacmentConnectingFlight_41" nodes="//@nodes.8" parentPattern="//@patterns.39" invokedNodes="//@nodes.8" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_42" partialPatterns="//@patterns.47 //@patterns.48" nodeConstraints="//@nodeConstraints.8 //@nodeConstraints.10" nodes="//@nodes.20 //@nodes.16 //@nodes.21 //@nodes.22 //@nodes.17 //@nodes.18 //@nodes.19 //@nodes.23" edges="//@edges.21 //@edges.16 //@edges.20 //@edges.17 //@edges.18 //@edges.19 //@edges.14 //@edges.15" parentPattern="//@patterns.4" overlaps="//@nodes.20 //@nodes.16 //@nodes.21 //@nodes.22 //@nodes.17 //@nodes.18 //@nodes.19 //@nodes.23" invokedNodes="//@nodes.20 //@nodes.16 //@nodes.21 //@nodes.22 //@nodes.17 //@nodes.18 //@nodes.19 //@nodes.23"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_43" partialPatterns="//@patterns.49 //@patterns.50" nodes="//@nodes.20 //@nodes.16 //@nodes.21 //@nodes.22" edges="//@edges.21 //@edges.16 //@edges.20" parentPattern="//@patterns.46" overlaps="//@nodes.20 //@nodes.16 //@nodes.21 //@nodes.22" invokedNodes="//@nodes.20 //@nodes.16 //@nodes.21 //@nodes.22"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_44" partialPatterns="//@patterns.51 //@patterns.52" nodes="//@nodes.17 //@nodes.18 //@nodes.22 //@nodes.19 //@nodes.23 //@nodes.20" edges="//@edges.17 //@edges.18 //@edges.19 //@edges.14 //@edges.15" parentPattern="//@patterns.46" overlaps="//@nodes.17 //@nodes.18 //@nodes.22 //@nodes.19 //@nodes.23 //@nodes.20" invokedNodes="//@nodes.17 //@nodes.18 //@nodes.22 //@nodes.19 //@nodes.23 //@nodes.20"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_45" partialPatterns="//@patterns.53 //@patterns.54" nodes="//@nodes.20 //@nodes.16" edges="//@edges.21" parentPattern="//@patterns.47" overlaps="//@nodes.20 //@nodes.16" invokedNodes="//@nodes.20 //@nodes.16" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_46" partialPatterns="//@patterns.55 //@patterns.56" nodes="//@nodes.20 //@nodes.21 //@nodes.22" edges="//@edges.16 //@edges.20" parentPattern="//@patterns.47" overlaps="//@nodes.20 //@nodes.21 //@nodes.22" invokedNodes="//@nodes.20 //@nodes.21 //@nodes.22"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_47" partialPatterns="//@patterns.57 //@patterns.58" nodes="//@nodes.17 //@nodes.18 //@nodes.22" edges="//@edges.17 //@edges.18" parentPattern="//@patterns.48" overlaps="//@nodes.17 //@nodes.18 //@nodes.22" invokedNodes="//@nodes.17 //@nodes.18 //@nodes.22"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_48" partialPatterns="//@patterns.59 //@patterns.60" nodes="//@nodes.17 //@nodes.19 //@nodes.23 //@nodes.20" edges="//@edges.19 //@edges.14 //@edges.15" parentPattern="//@patterns.48" overlaps="//@nodes.17 //@nodes.19 //@nodes.23 //@nodes.20" invokedNodes="//@nodes.17 //@nodes.19 //@nodes.23 //@nodes.20"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_49" nodes="//@nodes.20" parentPattern="//@patterns.49 //@patterns.55 //@patterns.66" invokedNodes="//@nodes.20" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_50" nodes="//@nodes.16" parentPattern="//@patterns.49" invokedNodes="//@nodes.16" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_51" partialPatterns="//@patterns.53 //@patterns.61" nodes="//@nodes.20 //@nodes.21" edges="//@edges.16" parentPattern="//@patterns.50" overlaps="//@nodes.20 //@nodes.21" invokedNodes="//@nodes.20 //@nodes.21" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_52" partialPatterns="//@patterns.61 //@patterns.62" nodes="//@nodes.21 //@nodes.22" edges="//@edges.20" parentPattern="//@patterns.50" overlaps="//@nodes.21 //@nodes.22" invokedNodes="//@nodes.21 //@nodes.22" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_53" partialPatterns="//@patterns.63 //@patterns.64" nodes="//@nodes.17 //@nodes.18" edges="//@edges.17" parentPattern="//@patterns.51" overlaps="//@nodes.17 //@nodes.18" invokedNodes="//@nodes.17 //@nodes.18" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_54" partialPatterns="//@patterns.64 //@patterns.62" nodes="//@nodes.18 //@nodes.22" edges="//@edges.18" parentPattern="//@patterns.51" overlaps="//@nodes.18 //@nodes.22" invokedNodes="//@nodes.18 //@nodes.22" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_55" partialPatterns="//@patterns.63 //@patterns.65" nodes="//@nodes.17 //@nodes.19" edges="//@edges.19" parentPattern="//@patterns.52" overlaps="//@nodes.17 //@nodes.19" invokedNodes="//@nodes.17 //@nodes.19" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_56" partialPatterns="//@patterns.66 //@patterns.67" nodeConstraints="//@nodeConstraints.9" nodes="//@nodes.23 //@nodes.20 //@nodes.17" edges="//@edges.14 //@edges.15" parentPattern="//@patterns.52" overlaps="//@nodes.23 //@nodes.20 //@nodes.17" invokedNodes="//@nodes.23 //@nodes.20 //@nodes.17"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_57" nodes="//@nodes.21" parentPattern="//@patterns.55 //@patterns.56" invokedNodes="//@nodes.21" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_58" nodes="//@nodes.22" parentPattern="//@patterns.56 //@patterns.58" invokedNodes="//@nodes.22" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_59" nodes="//@nodes.17" parentPattern="//@patterns.57 //@patterns.59 //@patterns.67" invokedNodes="//@nodes.17" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_60" nodes="//@nodes.18" parentPattern="//@patterns.57 //@patterns.58" invokedNodes="//@nodes.18" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_61" nodes="//@nodes.19" parentPattern="//@patterns.59" invokedNodes="//@nodes.19" patternType="NODE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_62" partialPatterns="//@patterns.68 //@patterns.53" nodes="//@nodes.23 //@nodes.20" edges="//@edges.14" parentPattern="//@patterns.60" overlaps="//@nodes.23 //@nodes.20" invokedNodes="//@nodes.23 //@nodes.20" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_63" partialPatterns="//@patterns.68 //@patterns.63" nodes="//@nodes.23 //@nodes.17" edges="//@edges.15" parentPattern="//@patterns.60" overlaps="//@nodes.23 //@nodes.17" invokedNodes="//@nodes.23 //@nodes.17" patternType="EDGE"/>
+  <patterns xmi:type="HiPEPattern:HiPEPartialPattern" name="travelHasConnectingFlight_64" nodes="//@nodes.23" parentPattern="//@patterns.66 //@patterns.67" invokedNodes="//@nodes.23" patternType="NODE"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.5" rightNode="//@nodes.8" abstractPatterns="//@patterns.14"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.6" rightNode="//@nodes.9" abstractPatterns="//@patterns.25"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.6" rightNode="//@nodes.10" abstractPatterns="//@patterns.12"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.7" rightNode="//@nodes.11" abstractPatterns="//@patterns.13"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.7" rightNode="//@nodes.12" abstractPatterns="//@patterns.14"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.9" rightNode="//@nodes.10" abstractPatterns="//@patterns.12"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.11" rightNode="//@nodes.12" abstractPatterns="//@patterns.12"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.13" rightNode="//@nodes.14" abstractPatterns="//@patterns.15 //@patterns.16"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.16" rightNode="//@nodes.19" abstractPatterns="//@patterns.46"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.17" rightNode="//@nodes.20" abstractPatterns="//@patterns.60"/>
+  <nodeConstraints xmi:type="HiPEPattern:UnequalConstraint" leftNode="//@nodes.18" rightNode="//@nodes.21" abstractPatterns="//@patterns.46"/>
+  <attributeConstraints xmi:type="HiPEPattern:RelationalConstraint" leftAttribute="//@attributes.0"/>
+  <attributeConstraints xmi:type="HiPEPattern:RelationalConstraint" abstractPatterns="//@patterns.12" type="Greater" leftAttribute="//@attributes.1" rightAttribute="//@attributes.2"/>
+  <attributeConstraints xmi:type="HiPEPattern:RelationalConstraint" leftAttribute="//@attributes.3"/>
+  <attributes xmi:type="HiPEPattern:HiPEAttribute" name="ID" node="//@nodes.6" value="org.eclipse.emf.ecore.impl.EAttributeImpl@ba4c10a (name: ID) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)" abstractPatterns="//@patterns.3">
+    <eAttribute xmi:type="ecore:EAttribute" href="platform:/resource/Flights/model/Flights.ecore#//FlightObject/ID"/>
+  </attributes>
+  <attributes xmi:type="HiPEPattern:HiPEAttribute" name="departure" node="//@nodes.10" value="org.eclipse.emf.ecore.impl.EAttributeImpl@6f1ff52d (name: departure) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)" abstractPatterns="//@patterns.3 //@patterns.12">
+    <eAttribute xmi:type="ecore:EAttribute" href="platform:/resource/Flights/model/Flights.ecore#//Flight/departure"/>
+  </attributes>
+  <attributes xmi:type="HiPEPattern:HiPEAttribute" node="//@nodes.6" value="org.eclipse.emf.ecore.impl.EAttributeImpl@6f1ff52d (name: departure) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)" abstractPatterns="//@patterns.3 //@patterns.12">
+    <eAttribute xmi:type="ecore:EAttribute" href="platform:/resource/Flights/model/Flights.ecore#//Flight/departure"/>
+  </attributes>
+  <attributes xmi:type="HiPEPattern:HiPEAttribute" name="ID" node="//@nodes.15" value="org.eclipse.emf.ecore.impl.EAttributeImpl@ba4c10a (name: ID) (ordered: true, unique: true, lowerBound: 0, upperBound: 1) (changeable: true, volatile: false, transient: false, defaultValueLiteral: null, unsettable: false, derived: false) (iD: false)" abstractPatterns="//@patterns.3">
+    <eAttribute xmi:type="ecore:EAttribute" href="platform:/resource/Flights/model/Flights.ecore#//FlightObject/ID"/>
+  </attributes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="object" abstractPatterns="//@patterns.0 //@patterns.5" invokingPartialPatterns="//@patterns.5">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="flight" abstractPatterns="//@patterns.1 //@patterns.6 //@patterns.7" invokingPartialPatterns="//@patterns.6 //@patterns.7">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="travel" abstractPatterns="//@patterns.1 //@patterns.6 //@patterns.8" invokingPartialPatterns="//@patterns.6 //@patterns.8">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="flight" abstractPatterns="//@patterns.2 //@patterns.9 //@patterns.10" invokingPartialPatterns="//@patterns.9 //@patterns.10">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="route" abstractPatterns="//@patterns.2 //@patterns.9 //@patterns.11" invokingPartialPatterns="//@patterns.9 //@patterns.11">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.17 //@patterns.24 //@patterns.35 //@patterns.42" invokingPartialPatterns="//@patterns.12 //@patterns.14 //@patterns.17 //@patterns.24 //@patterns.35 //@patterns.42">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" attributes="//@attributes.0 //@attributes.2" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.18 //@patterns.25 //@patterns.26 //@patterns.37 //@patterns.38 //@patterns.39 //@patterns.44" invokingPartialPatterns="//@patterns.12 //@patterns.14 //@patterns.18 //@patterns.25 //@patterns.26 //@patterns.37 //@patterns.38 //@patterns.39 //@patterns.44">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.13 //@patterns.14 //@patterns.15 //@patterns.18 //@patterns.19 //@patterns.20 //@patterns.26 //@patterns.27 //@patterns.38" invokingPartialPatterns="//@patterns.12 //@patterns.13 //@patterns.14 //@patterns.15 //@patterns.18 //@patterns.19 //@patterns.20 //@patterns.26 //@patterns.27 //@patterns.38">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.18 //@patterns.26 //@patterns.39 //@patterns.45" invokingPartialPatterns="//@patterns.12 //@patterns.14 //@patterns.18 //@patterns.26 //@patterns.39 //@patterns.45">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="flight" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.17 //@patterns.18 //@patterns.24 //@patterns.25 //@patterns.34 //@patterns.35 //@patterns.36 //@patterns.41" invokingPartialPatterns="//@patterns.12 //@patterns.14 //@patterns.17 //@patterns.18 //@patterns.24 //@patterns.25 //@patterns.34 //@patterns.35 //@patterns.36 //@patterns.41">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="replacementFlight" attributes="//@attributes.1" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.13 //@patterns.16 //@patterns.22 //@patterns.31 //@patterns.40" invokingPartialPatterns="//@patterns.12 //@patterns.13 //@patterns.16 //@patterns.22 //@patterns.31 //@patterns.40">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="replacementRoute" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.13 //@patterns.16 //@patterns.21 //@patterns.22 //@patterns.30 //@patterns.31 //@patterns.32" invokingPartialPatterns="//@patterns.12 //@patterns.13 //@patterns.16 //@patterns.21 //@patterns.22 //@patterns.30 //@patterns.31 //@patterns.32">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="route" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.17 //@patterns.23 //@patterns.24 //@patterns.33 //@patterns.34" invokingPartialPatterns="//@patterns.12 //@patterns.14 //@patterns.17 //@patterns.23 //@patterns.24 //@patterns.33 //@patterns.34">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="targetAirport" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.13 //@patterns.15 //@patterns.16 //@patterns.20 //@patterns.21 //@patterns.29" invokingPartialPatterns="//@patterns.12 //@patterns.13 //@patterns.15 //@patterns.16 //@patterns.20 //@patterns.21 //@patterns.29">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.13 //@patterns.14 //@patterns.15 //@patterns.16 //@patterns.17 //@patterns.19 //@patterns.22 //@patterns.23 //@patterns.28 //@patterns.32" invokingPartialPatterns="//@patterns.12 //@patterns.13 //@patterns.14 //@patterns.15 //@patterns.16 //@patterns.17 //@patterns.19 //@patterns.22 //@patterns.23 //@patterns.28 //@patterns.32">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="travel" attributes="//@attributes.3" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.18 //@patterns.25 //@patterns.36 //@patterns.37 //@patterns.43" invokingPartialPatterns="//@patterns.12 //@patterns.14 //@patterns.18 //@patterns.25 //@patterns.36 //@patterns.37 //@patterns.43">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="arrivalGate" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.47 //@patterns.49 //@patterns.54" invokingPartialPatterns="//@patterns.46 //@patterns.47 //@patterns.49 //@patterns.54">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="conectingFlight" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.48 //@patterns.51 //@patterns.52 //@patterns.57 //@patterns.59 //@patterns.60 //@patterns.63 //@patterns.67" invokingPartialPatterns="//@patterns.46 //@patterns.48 //@patterns.51 //@patterns.52 //@patterns.57 //@patterns.59 //@patterns.60 //@patterns.63 //@patterns.67">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="conectingRoute" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.48 //@patterns.51 //@patterns.57 //@patterns.58 //@patterns.64" invokingPartialPatterns="//@patterns.46 //@patterns.48 //@patterns.51 //@patterns.57 //@patterns.58 //@patterns.64">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="departingGate" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.48 //@patterns.52 //@patterns.59 //@patterns.65" invokingPartialPatterns="//@patterns.46 //@patterns.48 //@patterns.52 //@patterns.59 //@patterns.65">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Gate"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="flight" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.47 //@patterns.48 //@patterns.49 //@patterns.50 //@patterns.52 //@patterns.53 //@patterns.55 //@patterns.60 //@patterns.66" invokingPartialPatterns="//@patterns.46 //@patterns.47 //@patterns.48 //@patterns.49 //@patterns.50 //@patterns.52 //@patterns.53 //@patterns.55 //@patterns.60 //@patterns.66">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Flight"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="route" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.47 //@patterns.50 //@patterns.55 //@patterns.56 //@patterns.61" invokingPartialPatterns="//@patterns.46 //@patterns.47 //@patterns.50 //@patterns.55 //@patterns.56 //@patterns.61">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Route"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="transitAirport" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.47 //@patterns.48 //@patterns.50 //@patterns.51 //@patterns.56 //@patterns.58 //@patterns.62" invokingPartialPatterns="//@patterns.46 //@patterns.47 //@patterns.48 //@patterns.50 //@patterns.51 //@patterns.56 //@patterns.58 //@patterns.62">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Airport"/>
+  </nodes>
+  <nodes xmi:type="HiPEPattern:HiPENode" name="travel" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.48 //@patterns.52 //@patterns.60 //@patterns.66 //@patterns.67 //@patterns.68" invokingPartialPatterns="//@patterns.46 //@patterns.48 //@patterns.52 //@patterns.60 //@patterns.66 //@patterns.67 //@patterns.68">
+    <type xmi:type="ecore:EClass" href="platform:/resource/Flights/model/Flights.ecore#//Travel"/>
+  </nodes>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_travels" source="//@nodes.1" target="//@nodes.2" abstractPatterns="//@patterns.1 //@patterns.6">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/travels"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@nodes.3" target="//@nodes.4" abstractPatterns="//@patterns.2 //@patterns.9">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@nodes.15" target="//@nodes.9" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.18 //@patterns.25 //@patterns.36">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@nodes.15" target="//@nodes.6" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.18 //@patterns.25 //@patterns.37">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@nodes.6" target="//@nodes.7" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.18 //@patterns.26 //@patterns.38">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@nodes.9" target="//@nodes.12" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.17 //@patterns.24 //@patterns.34">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@nodes.10" target="//@nodes.11" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.13 //@patterns.16 //@patterns.22 //@patterns.31">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@nodes.6" target="//@nodes.8" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.18 //@patterns.26 //@patterns.39">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@nodes.7" target="//@nodes.14" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.13 //@patterns.15 //@patterns.19">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@nodes.11" target="//@nodes.14" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.13 //@patterns.16 //@patterns.22 //@patterns.32">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@nodes.7" target="//@nodes.13" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.13 //@patterns.15 //@patterns.20">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@nodes.9" target="//@nodes.5" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.17 //@patterns.24 //@patterns.35">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@nodes.11" target="//@nodes.13" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.13 //@patterns.16 //@patterns.21">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@nodes.12" target="//@nodes.14" abstractPatterns="//@patterns.3 //@patterns.12 //@patterns.14 //@patterns.17 //@patterns.23">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@nodes.23" target="//@nodes.20" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.48 //@patterns.52 //@patterns.60 //@patterns.66">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Travel_flights" source="//@nodes.23" target="//@nodes.17" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.48 //@patterns.52 //@patterns.60 //@patterns.67">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Travel/flights"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@nodes.20" target="//@nodes.21" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.47 //@patterns.50 //@patterns.55">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_route" source="//@nodes.17" target="//@nodes.18" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.48 //@patterns.51 //@patterns.57">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/route"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_src" source="//@nodes.18" target="//@nodes.22" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.48 //@patterns.51 //@patterns.58">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/src"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_src" source="//@nodes.17" target="//@nodes.19" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.48 //@patterns.52 //@patterns.59">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/src"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Route_trg" source="//@nodes.21" target="//@nodes.22" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.47 //@patterns.50 //@patterns.56">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Route/trg"/>
+  </edges>
+  <edges xmi:type="HiPEPattern:HiPEEdge" name="Flight_trg" source="//@nodes.20" target="//@nodes.16" abstractPatterns="//@patterns.4 //@patterns.46 //@patterns.47 //@patterns.49">
+    <type xmi:type="ecore:EReference" href="platform:/resource/Flights/model/Flights.ecore#//Flight/trg"/>
+  </edges>
+</HiPEPattern:HiPEContainer>
