@@ -5,7 +5,9 @@
 *.log
 
 # Generated files
-#/src-gen/*
+/src-gen/*
+#/bin/*
+#/debug/*
 
 # BlueJ files
 *.ctxt
