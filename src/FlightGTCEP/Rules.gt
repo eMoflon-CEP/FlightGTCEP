@@ -6,6 +6,48 @@ pattern examplePattern() {
 }
 
 /*
+ * track passengers in flights
+ */
+pattern flightWithRouteAndPassenger {
+	route: Route
+	plane : Plane
+	person : Person
+	travel : Travel {
+		-person->person
+	}
+	flight: Flight {
+		-route->route
+		-plane->plane
+		-travels->travel
+	}
+	
+}
+
+/*
+ * track updated flights departure times
+ */
+pattern flightWithRouteAndDeparture {
+	route: Route
+	flight: Flight {
+		-route->route
+		-departure->departure
+	}
+	departure : TimeStamp
+}
+
+/*
+ * track updated flights arrival times
+ */
+pattern flightWithRouteAndArrival {
+	route: Route
+	flight: Flight {
+		-route->route
+		-arrival->arrival
+	}
+	arrival : TimeStamp
+}
+
+/*
  * track new/updated flights in a pattern for Apama to filter delayed flights
  */
 pattern flightWithRoute {
@@ -54,8 +96,15 @@ pattern travelHasConnectingFlight {
 
 
 pattern replacmentConnectingFlight(travelID:EString,oldFlightID:EString) refines travelHasConnectingFlight {
+	replacementDeparture : TimeStamp {
+		.time > connectingDeparture.time
+	}
+	
+	connectingDeparture : TimeStamp
+	
 	conectingFlight: Flight {
 		.ID==param::oldFlightID
+		-departure->connectingDeparture
 	}
 	targetAirport: Airport
 	conectingRoute: Route {
@@ -66,10 +115,11 @@ pattern replacmentConnectingFlight(travelID:EString,oldFlightID:EString) refines
 		-src -> transitAirport
 	}
 	replacementFlight: Flight {
-		.departure > conectingFlight.departure
+		-departure->replacementDeparture
 		-route -> replacementRoute
 		// plane free spaces?
 	}
+	
 	travel: Travel {
 		.ID==param::travelID
 	}
