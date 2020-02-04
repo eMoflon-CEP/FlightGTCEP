@@ -1,23 +1,42 @@
 import "platform:/resource/Flights/model/Flights.ecore"
-import "http://www.eclipse.org/emf/2002/Ecore"
 
-pattern examplePattern() {
-	object: Airport
+pattern airport() {
+	airport: Airport
+}
+
+pattern gate() refines airport{
+	gate : Gate
+	airport : Airport {
+		-gates->gate
+	}
+}
+
+pattern route() {
+	route : Route
+}
+
+pattern plane() {
+	plane : Plane
 }
 
 /*
- * track passengers in flights
+ * track new/updated flights in a pattern for Apama to filter delayed flights
  */
-pattern flightWithRouteAndPassenger {
+pattern flight() {
 	route: Route
-	plane : Plane
-	person : Person
-	travel : Travel {
-		-person->person
-	}
 	flight: Flight {
 		-route->route
 		-plane->plane
+	}
+	plane : Plane
+}
+
+/*
+ * track passengers in flights -> remaining capacity
+ */
+pattern travelWithFlight refines flight{
+	travel : Travel
+	flight: Flight {
 		-travels->travel
 	}
 	
@@ -26,54 +45,55 @@ pattern flightWithRouteAndPassenger {
 /*
  * track updated flights departure times
  */
-pattern flightWithRouteAndDeparture {
-	route: Route
+pattern flightWithDeparture refines flight{
 	flight: Flight {
-		-route->route
 		-departure->departure
 	}
 	departure : TimeStamp
 }
 
 /*
+ * track updated flights source airports
+ */
+pattern flightWithSource refines flightWithDeparture {
+	route : Route {
+		-src->source
+	}
+	source : Airport
+}
+
+/*
  * track updated flights arrival times
  */
-pattern flightWithRouteAndArrival {
-	route: Route
+pattern flightWithArrival refines flight{
 	flight: Flight {
-		-route->route
 		-arrival->arrival
 	}
 	arrival : TimeStamp
 }
 
 /*
- * track new/updated flights in a pattern for Apama to filter delayed flights
+ * track updated flights target airports
  */
-pattern flightWithRoute {
-	route: Route
-	flight: Flight {
-		-route->route
+pattern flightWithTarget refines flightWithArrival {
+	route : Route {
+		-trg->target
 	}
+	target : Airport
 }
 
-/*
- * find travels in flight -> remaining capacity
- */
-pattern flightInTravel {
-	travel: Travel
-	flight: Flight {
-		-travels->travel
-	}
-}
 
 /*
  * find travels with connecting flights
  */
 pattern travelHasConnectingFlight {
-	transitAirport: Airport
+	transitAirport: Airport {
+		-gates->arrivalGate
+		-gates->departingGate	
+	}
 	arrivalGate: Gate
 	departingGate: Gate
+	
 	route: Route {
 		-trg -> transitAirport
 	}
@@ -81,48 +101,140 @@ pattern travelHasConnectingFlight {
 		-route -> route
 		-trg -> arrivalGate
 	}
-	conectingRoute: Route {
+	connectingRoute: Route {
 		-src -> transitAirport
 	}
-	conectingFlight: Flight {
-		-route -> conectingRoute
+	connectingFlight: Flight {
+		-route -> connectingRoute
 		-src -> departingGate
 	}
 	travel: Travel {
 		-flights -> flight
-		-flights -> conectingFlight
+		-flights -> connectingFlight
 	}
 }
 
-
-pattern replacmentConnectingFlight(travelID:EString,oldFlightID:EString) refines travelHasConnectingFlight {
+/*
+ * finds possible alternatives for connecting flights
+ */
+pattern connectingFlightAlternative() refines travelHasConnectingFlight {
+	replacementFlight: Flight {
+		-departure->replacementDeparture
+		-route -> replacementRoute
+		-src -> replacementDepartingGate
+	}
+	
 	replacementDeparture : TimeStamp {
-		.time > connectingDeparture.time
+		.time > flightArrival.time
 	}
 	
-	connectingDeparture : TimeStamp
-	
-	conectingFlight: Flight {
-		.ID==param::oldFlightID
-		-departure->connectingDeparture
-	}
-	targetAirport: Airport
-	conectingRoute: Route {
-		-trg -> targetAirport
-	}
 	replacementRoute: Route {
 		-trg -> targetAirport
 		-src -> transitAirport
 	}
-	replacementFlight: Flight {
-		-departure->replacementDeparture
-		-route -> replacementRoute
-		// plane free spaces?
+	
+	replacementDepartingGate: Gate
+	
+	flight: Flight {
+		-arrival->flightArrival
 	}
 	
-	travel: Travel {
-		.ID==param::travelID
+	flightArrival : TimeStamp
+	
+	transitAirport: Airport {
+		-gates->replacementDepartingGate
 	}
 	
+	targetAirport: Airport
 	
+	connectingRoute: Route {
+		-trg -> targetAirport
+	}
+
+}
+
+/* 
+ * finds alternative direct flights for connecting flights
+ */
+pattern connectingFlightDirectAlternative() refines travelHasConnectingFlight{
+	route : Route {
+		-src->src
+	}
+	
+	connectingRoute : Route {
+		-trg->trg
+	}
+	
+	replacementFlight : Flight{
+		-route->replacementRoute
+	}
+	
+	replacementRoute : Route{
+		-src->src
+		-trg->trg
+	}
+	
+	src : Airport
+	trg : Airport
+}
+
+/* 
+ * finds direct flights along with their src and trg airports
+ */
+pattern directFlight() refines flight{
+	travel : Travel {
+		-flights->flight
+	}
+	
+	route : Route {
+		-src->src
+		-trg->trg
+	}
+	
+	src : Airport
+	trg : Airport
+}
+
+/* 
+ * finds connected alternatives to direct flights
+ */
+pattern directFlightConnectingAlternative() refines directFlight {
+	
+	transitAirport : Airport {
+		-gates->gate1Arrival
+		-gates->gate2Departure
+	}
+	
+	flight1 : Flight {
+		-route->route1
+		-trg->gate1Arrival
+		-arrival->flight1Arrival
+	}
+	
+	gate1Arrival : Gate
+	
+	
+	flight1Arrival : TimeStamp
+	
+	route1 : Route {
+		-src->src
+		-trg->transitAirport
+	}
+	
+	flight2 : Flight {
+		-route->route2
+		-src->gate2Departure
+		-departure->flight2Departure
+	}
+	
+	gate2Departure : Gate
+	
+	flight2Departure : TimeStamp {
+		.time >= flight1Arrival.time
+	}
+	
+	route2 : Route {
+		-src->transitAirport
+		-trg->trg
+	}
 }
