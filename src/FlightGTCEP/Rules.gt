@@ -19,6 +19,10 @@ pattern plane() {
 	plane : Plane
 }
 
+pattern travel() {
+	travel : Travel
+}
+
 /*
  * track new/updated flights in a pattern for Apama to filter delayed flights
  */

@@ -15,6 +15,7 @@ import FlightGTCEP.api.FlightGTCEPApp;
 import FlightGTCEP.api.FlightGTCEPHiPEApp;
 import FlightGTCEP.api.matches.FlightMatch;
 import FlightGTCEP.api.matches.TravelHasConnectingFlightMatch;
+import FlightGTCEP.api.matches.TravelMatch;
 import FlightGTCEP.api.matches.TravelWithFlightMatch;
 import Flights.Flight;
 import Flights.Person;
@@ -27,6 +28,7 @@ public class FlightGTMonitor {
 	
 	protected Map<Flight, Set<Travel>> flight2Travels;
 	protected Map<Travel, Set<TravelHasConnectingFlightMatch>> travel2DelayedConnectingFlights;
+	protected Map<Travel, Set<TravelHasConnectingFlightMatch>> travel2ConnectingFlights;
 	protected List<String> warnings;
 	protected List<String> infos;
 	
@@ -46,9 +48,11 @@ public class FlightGTMonitor {
 	public void initMatchSubscribers() {
 		api.flight().subscribeAppearing(this::watchAppearingFlights);
 		api.flight().subscribeDisappearing(this::watchDisappearingFlights);
-		api.travelWithFlight().subscribeAppearing(this::watchAppearingPersons);
-		api.travelWithFlight().subscribeDisappearing(this::watchDisappearingPersons);
+		api.travel().subscribeDisappearing(this::watchDisappearingTravels);
+		api.travelWithFlight().subscribeAppearing(this::watchAppearingFlightsWithTravels);
+		api.travelWithFlight().subscribeDisappearing(this::watchDisappearingFlightsWithTravels);
 		api.travelHasConnectingFlight().subscribeAppearing(this::watchAppearingConnectingFlights);
+		api.travelHasConnectingFlight().subscribeDisappearing(this::watchDisappearingConnectingFlights);
 	}
 	
 	private void watchAppearingFlights(FlightMatch match) {
@@ -59,7 +63,24 @@ public class FlightGTMonitor {
 		flight2Travels.remove(match.getFlight());
 	}
 	
-	private void watchAppearingPersons(TravelWithFlightMatch match) {
+	private void watchDisappearingTravels(TravelMatch match) {
+		Collection<Flight> flights = match.getTravel().getFlights();
+		for(Flight flight : flights) {
+			Set<Travel> travels = flight2Travels.get(flight);
+			if(travels != null) {
+				travels.remove(match.getTravel());
+			}
+		}
+		travel2ConnectingFlights.remove(match.getTravel());
+		if(travel2DelayedConnectingFlights.containsKey(match.getTravel())) {
+			travel2DelayedConnectingFlights.get(match.getTravel())
+			.forEach(connectingFlight -> {
+				infos.add("Travel "+match.getTravel().getID()+" completed or canceled. Therefore, the issue concerning the delayed connecting flight "+connectingFlight.getConnectingFlight().getID()+" has been resolved.\n");
+			});
+		}
+	}
+	
+	private void watchAppearingFlightsWithTravels(TravelWithFlightMatch match) {
 		Flight flight = match.getFlight();
 		Set<Travel> travels = flight2Travels.get(flight);
 		if(travels == null) {
@@ -73,7 +94,7 @@ public class FlightGTMonitor {
 		}
 	}
 	
-	private void watchDisappearingPersons(TravelWithFlightMatch match) {
+	private void watchDisappearingFlightsWithTravels(TravelWithFlightMatch match) {
 		Flight flight = match.getFlight();
 		Set<Travel> travels = flight2Travels.get(flight);
 		if(travels != null) {
@@ -94,6 +115,10 @@ public class FlightGTMonitor {
 				travel2DelayedConnectingFlights.put(match.getTravel(), brokenFlights);
 			}
 			brokenFlights.add(match);
+			Set<TravelHasConnectingFlightMatch> connectingFlights = travel2ConnectingFlights.get(match.getTravel());
+			if(connectingFlights != null) {
+				connectingFlights.remove(match);
+			}
 			return;
 		}
 		
@@ -102,7 +127,28 @@ public class FlightGTMonitor {
 			if(brokenFlights.remove(match)) {
 				infos.add("Travel "+match.getTravel().getID()+" will make its connecting flight "+match.getConnectingFlight().getID()+" since the delay has been resolved.\n"+
 						"---> ETA: "+arrival+", distance to gate: "+dGates+", ETD: "+departure);
+				Set<TravelHasConnectingFlightMatch> connectingFlights = travel2ConnectingFlights.get(match.getTravel());
+				if(connectingFlights == null) {
+					connectingFlights = new HashSet<>();
+					travel2ConnectingFlights.put(match.getTravel(), connectingFlights);
+				}
+				connectingFlights.add(match);
 			}
+		}
+	}
+	
+	private void watchDisappearingConnectingFlights(TravelHasConnectingFlightMatch match) {
+		Set<TravelHasConnectingFlightMatch> brokenFlights = travel2DelayedConnectingFlights.get(match.getTravel());
+		if(brokenFlights == null) {
+			brokenFlights = new HashSet<>();
+			travel2DelayedConnectingFlights.put(match.getTravel(), brokenFlights);
+		}
+		warnings.add("Travel "+match.getTravel().getID()+" will miss its connecting flight "+match.getConnectingFlight().getID());
+		brokenFlights.add(match);
+		
+		Set<TravelHasConnectingFlightMatch> connectingFlights = travel2ConnectingFlights.get(match.getTravel());
+		if(connectingFlights != null) {
+			connectingFlights.remove(match);
 		}
 	}
 
