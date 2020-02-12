@@ -1,11 +1,10 @@
 package flight.puregt;
 
+import static org.emoflon.flight.model.util.LongDateHelper.createTimeStamp;
 import org.emoflon.flight.model.generator.SimpleModelGenerator;
 
 import Flights.Flight;
 import Flights.FlightModel;
-import Flights.FlightsFactory;
-import Flights.TimeStamp;
 
 public class FlightGTMonitorDemo {
 
@@ -21,14 +20,10 @@ public class FlightGTMonitorDemo {
 				.filter(matchSet -> !matchSet.isEmpty())
 				.findAny().get().iterator().next().getFlight();
 		
-		TimeStamp arrival = FlightsFactory.eINSTANCE.createTimeStamp();
-		arrival.setTime(connectingFlight.getArrival().getTime()+100000000);
-		connectingFlight.setArrival(arrival);
+		connectingFlight.setArrival(createTimeStamp(connectingFlight.getArrival(), 60, true));
 		monitor.update();
-		
-		TimeStamp arrival2 = FlightsFactory.eINSTANCE.createTimeStamp();
-		arrival2.setTime(connectingFlight.getArrival().getTime()-100000000);
-		connectingFlight.setArrival(arrival2);
+
+		connectingFlight.setArrival(createTimeStamp(connectingFlight.getArrival(), 60, false));
 		monitor.update();
 		
 		monitor.shutdown();

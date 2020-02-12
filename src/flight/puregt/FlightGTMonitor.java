@@ -10,6 +10,10 @@ import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 
+import static org.emoflon.flight.model.util.LongDateHelper.getTimeInMs;
+import static org.emoflon.flight.model.util.LongDateHelper.deltaAsString;
+import static org.emoflon.flight.model.util.LongDateHelper.getString_mmhhDDMMYYYY;
+
 import FlightGTCEP.api.FlightGTCEPAPI;
 import FlightGTCEP.api.FlightGTCEPApp;
 import FlightGTCEP.api.FlightGTCEPHiPEApp;
@@ -21,7 +25,6 @@ import FlightGTCEP.api.matches.TravelWithFlightMatch;
 import Flights.Flight;
 import Flights.FlightModel;
 import Flights.Plane;
-import Flights.TimeStamp;
 import Flights.Travel;
 
 public class FlightGTMonitor {
@@ -148,12 +151,13 @@ public class FlightGTMonitor {
 	}
 	
 	private void watchAppearingConnectingFlights(TravelHasConnectingFlightMatch match) {
-		int dGates = Math.abs(match.getArrivalGate().getPosition()-match.getDepartingGate().getPosition());
+		long dGates = (long)(match.getTransitAirport().getSize() 
+				* getTimeInMs(Math.abs(match.getArrivalGate().getPosition()-match.getDepartingGate().getPosition())));
 		long arrival = match.getFlight().getArrival().getTime();
 		long departure = match.getConnectingFlight().getDeparture().getTime();
 		if(arrival+dGates > departure) {
 			warnings.add("Travel "+match.getTravel().getID()+" will miss its connecting flight "+match.getConnectingFlight().getID()+" due to a delayed arrival time.\n"+
-						"---> ETA: "+arrival+", distance to gate: "+dGates+", ETD: "+departure);
+						"---> ETA: "+getString_mmhhDDMMYYYY(arrival)+", distance to gate: "+deltaAsString(dGates)+", ETD: "+getString_mmhhDDMMYYYY(departure));
 			Set<TravelHasConnectingFlightMatch> brokenFlights = travel2DelayedConnectingFlights.get(match.getTravel());
 			if(brokenFlights == null) {
 				brokenFlights = new HashSet<>();
@@ -178,7 +182,7 @@ public class FlightGTMonitor {
 		if(brokenFlights != null) {
 			if(brokenFlights.remove(match)) {
 				infos.add("Travel "+match.getTravel().getID()+" will make its connecting flight "+match.getConnectingFlight().getID()+" since the delay has been resolved.\n"+
-						"---> ETA: "+arrival+", distance to gate: "+dGates+", ETD: "+departure);
+						"---> ETA: "+getString_mmhhDDMMYYYY(arrival)+", distance to gate: "+deltaAsString(dGates)+", ETD: "+getString_mmhhDDMMYYYY(departure));
 				connectingFlights.add(match);
 			}
 		}
@@ -204,15 +208,17 @@ public class FlightGTMonitor {
 		if(prevArrival == null)
 			return;
 		
+		
 		Long currentArrival = match.getFlight().getArrival().getTime();
+		flight2Arrival.replace(match.getFlight(), currentArrival);
 		Set<Travel> travels = flight2Travels.get(match.getFlight());
 		if(travels == null)
 			return;
 		
 		// check travels in case of a early arrival
 		if(currentArrival<prevArrival) {
-			infos.add("Flight "+match.getFlight().getID()+" will arrive early by "+ (prevArrival-currentArrival) +"minutes.\n"+
-					"---> current ETA: "+currentArrival+", original ETA: "+prevArrival);
+			infos.add("Flight "+match.getFlight().getID()+" will arrive early by "+ deltaAsString(prevArrival-currentArrival) +"minutes.\n"+
+					"---> current ETA: "+getString_mmhhDDMMYYYY(currentArrival)+", original ETA: "+getString_mmhhDDMMYYYY(prevArrival));
 			
 			for(Travel travel : travels) {
 				Set<TravelHasConnectingFlightMatch> brokenFlights =  travel2DelayedConnectingFlights.get(travel);
@@ -222,13 +228,14 @@ public class FlightGTMonitor {
 				Set<TravelHasConnectingFlightMatch> removedFlights = new HashSet<>();
 				
 				for(TravelHasConnectingFlightMatch brokenFlight : brokenFlights) {
-					int dGates = Math.abs(brokenFlight.getArrivalGate().getPosition()-brokenFlight.getDepartingGate().getPosition());
+					long dGates = (long)(brokenFlight.getTransitAirport().getSize() 
+							* getTimeInMs(Math.abs(brokenFlight.getArrivalGate().getPosition()-brokenFlight.getDepartingGate().getPosition())));
 					long arrival = brokenFlight.getFlight().getArrival().getTime();
 					long departure = brokenFlight.getConnectingFlight().getDeparture().getTime();
 					
 					if(arrival+dGates <= departure) {
 						infos.add("Travel "+brokenFlight.getTravel().getID()+" will now make its connecting flight "+brokenFlight.getConnectingFlight().getID()+" since the delay has been resolved.\n"+
-								"---> ETA: "+arrival+", distance to gate: "+dGates+", ETD: "+departure);
+								"---> ETA: "+getString_mmhhDDMMYYYY(arrival)+", distance to gate: "+deltaAsString(dGates)+", ETD: "+getString_mmhhDDMMYYYY(departure));
 						Set<TravelHasConnectingFlightMatch> connectedFlights = travel2ConnectingFlights.get(brokenFlight.getTravel());
 						if(connectedFlights == null) {
 							connectedFlights = new HashSet<>();
@@ -245,8 +252,8 @@ public class FlightGTMonitor {
 		}
 		// check travels in case of a delay
 		else if(currentArrival>prevArrival) {
-			warnings.add("Flight "+match.getFlight().getID()+" currently has a delay of "+ (currentArrival-prevArrival) +"minutes.\n"+
-					"---> current ETA: "+currentArrival+", original ETA: "+prevArrival);
+			warnings.add("Flight "+match.getFlight().getID()+" currently has a delay of "+ deltaAsString(currentArrival-prevArrival) +"minutes.\n"+
+					"---> current ETA: "+getString_mmhhDDMMYYYY(currentArrival)+", original ETA: "+getString_mmhhDDMMYYYY(prevArrival));
 			
 			for(Travel travel : travels) {
 				Set<TravelHasConnectingFlightMatch> connectingFlights = travel2ConnectingFlights.get(travel);
@@ -256,13 +263,14 @@ public class FlightGTMonitor {
 				Set<TravelHasConnectingFlightMatch> removedFlights = new HashSet<>();
 				
 				for(TravelHasConnectingFlightMatch connectingFlight : connectingFlights) {
-					int dGates = Math.abs(connectingFlight.getArrivalGate().getPosition()-connectingFlight.getDepartingGate().getPosition());
+					long dGates = (long)(connectingFlight.getTransitAirport().getSize() 
+							* getTimeInMs(Math.abs(connectingFlight.getArrivalGate().getPosition()-connectingFlight.getDepartingGate().getPosition())));
 					long arrival = connectingFlight.getFlight().getArrival().getTime();
 					long departure = connectingFlight.getConnectingFlight().getDeparture().getTime();
 					
 					if(arrival+dGates > departure) {
 						warnings.add("Travel "+connectingFlight.getTravel().getID()+" will miss its connecting flight "+connectingFlight.getConnectingFlight().getID()+" due to a delayed arrival time.\n"+
-									"---> ETA: "+arrival+", distance to gate: "+dGates+", ETD: "+departure);
+									"---> ETA: "+getString_mmhhDDMMYYYY(arrival)+", distance to gate: "+deltaAsString(dGates)+", ETD: "+getString_mmhhDDMMYYYY(departure));
 						Set<TravelHasConnectingFlightMatch> brokenFlights = travel2DelayedConnectingFlights.get(connectingFlight.getTravel());
 						if(brokenFlights == null) {
 							brokenFlights = new HashSet<>();
