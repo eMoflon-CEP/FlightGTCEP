@@ -9,7 +9,6 @@ import Flights.FlightModel;
 public class FlightGTMonitorDemo {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		SimpleModelGenerator generator = new SimpleModelGenerator();
 		FlightModel model = generator.generateSimpleModel("../Flights/src/org/emoflon/flight/model/definitions");
 		FlightGTMonitor monitor = new FlightGTMonitor();
@@ -18,12 +17,15 @@ public class FlightGTMonitorDemo {
 		monitor.update();
 		Flight connectingFlight = monitor.travel2ConnectingFlights.values().stream()
 				.filter(matchSet -> !matchSet.isEmpty())
-				.findAny().get().iterator().next().getFlight();
+				.flatMap(matchSet -> matchSet.stream())
+				.filter(match -> monitor.travel2AlternativeConnectingFlights.containsKey(match.getTravel()))
+				.filter(match -> !monitor.travel2AlternativeConnectingFlights.get(match.getTravel()).isEmpty())
+				.findAny().get().getFlight();
 		
-		connectingFlight.setArrival(createTimeStamp(connectingFlight.getArrival(), 60, true));
+		connectingFlight.setArrival(createTimeStamp(connectingFlight.getArrival(), 220, true));
 		monitor.update();
 
-		connectingFlight.setArrival(createTimeStamp(connectingFlight.getArrival(), 60, false));
+		connectingFlight.setArrival(createTimeStamp(connectingFlight.getArrival(), 220, false));
 		monitor.update();
 		
 		monitor.shutdown();

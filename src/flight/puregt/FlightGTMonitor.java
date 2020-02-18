@@ -1,12 +1,16 @@
 package flight.puregt;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 
@@ -17,13 +21,16 @@ import static org.emoflon.flight.model.util.LongDateHelper.getString_mmhhDDMMYYY
 import FlightGTCEP.api.FlightGTCEPAPI;
 import FlightGTCEP.api.FlightGTCEPApp;
 import FlightGTCEP.api.FlightGTCEPHiPEApp;
+import FlightGTCEP.api.matches.ConnectingFlightAlternativeMatch;
 import FlightGTCEP.api.matches.FlightMatch;
 import FlightGTCEP.api.matches.FlightWithArrivalMatch;
 import FlightGTCEP.api.matches.TravelHasConnectingFlightMatch;
 import FlightGTCEP.api.matches.TravelMatch;
 import FlightGTCEP.api.matches.TravelWithFlightMatch;
+import Flights.Airport;
 import Flights.Flight;
 import Flights.FlightModel;
+import Flights.Gate;
 import Flights.Plane;
 import Flights.Travel;
 
@@ -35,8 +42,10 @@ public class FlightGTMonitor {
 	protected Map<Flight, Set<Travel>> flight2Travels;
 	protected Map<Travel, Set<TravelHasConnectingFlightMatch>> travel2DelayedConnectingFlights;
 	protected Map<Travel, Set<TravelHasConnectingFlightMatch>> travel2ConnectingFlights;
-	protected List<String> warnings;
-	protected List<String> infos;
+	protected Map<Travel, Set<ConnectingFlightAlternativeMatch>> travel2AlternativeConnectingFlights;
+	protected Map<Flight, Set<ConnectingFlightAlternativeMatch>> overfullAlternatives;
+	protected Queue<String> warnings;
+	protected Queue<String> infos;
 	
 	public void init(String modelPath) {
 		app = new FlightGTCEPHiPEApp();
@@ -45,13 +54,15 @@ public class FlightGTMonitor {
 		app.loadModel(uri);
 		api = app.initAPI();
 		
-		flight2Arrival = new HashMap<>();
-		flight2Travels = new HashMap<>();
-		travel2DelayedConnectingFlights = new HashMap<>();
-		travel2ConnectingFlights  = new HashMap<>();
+		flight2Arrival = Collections.synchronizedMap(new HashMap<>());
+		flight2Travels = Collections.synchronizedMap(new HashMap<>());
+		travel2DelayedConnectingFlights = Collections.synchronizedMap(new HashMap<>());
+		travel2ConnectingFlights  = Collections.synchronizedMap(new HashMap<>());
+		travel2AlternativeConnectingFlights = Collections.synchronizedMap(new HashMap<>());
+		overfullAlternatives = Collections.synchronizedMap(new HashMap<>());
 		
-		warnings = new LinkedList<>();
-		infos = new LinkedList<>();
+		warnings = new LinkedBlockingQueue<>();
+		infos = new LinkedBlockingQueue<>();
 	}
 	
 	public void init(FlightModel model) {
@@ -61,13 +72,15 @@ public class FlightGTMonitor {
 		app.getModel().getResources().get(0).getContents().add(model);
 		api = app.initAPI();
 		
-		flight2Arrival = new HashMap<>();
-		flight2Travels = new HashMap<>();
-		travel2DelayedConnectingFlights = new HashMap<>();
-		travel2ConnectingFlights  = new HashMap<>();
+		flight2Arrival = Collections.synchronizedMap(new HashMap<>());
+		flight2Travels = Collections.synchronizedMap(new HashMap<>());
+		travel2DelayedConnectingFlights = Collections.synchronizedMap(new HashMap<>());
+		travel2ConnectingFlights  = Collections.synchronizedMap(new HashMap<>());
+		travel2AlternativeConnectingFlights = Collections.synchronizedMap(new HashMap<>());
+		overfullAlternatives = Collections.synchronizedMap(new HashMap<>());
 		
-		warnings = new LinkedList<>();
-		infos = new LinkedList<>();
+		warnings = new LinkedBlockingQueue<>();
+		infos = new LinkedBlockingQueue<>();
 	}
 
 	public void initMatchSubscribers() {
@@ -79,39 +92,47 @@ public class FlightGTMonitor {
 		api.travelWithFlight().subscribeDisappearing(this::watchDisappearingFlightsWithTravels);
 		api.travelHasConnectingFlight().subscribeAppearing(this::watchAppearingConnectingFlights);
 		api.travelHasConnectingFlight().subscribeDisappearing(this::watchDisappearingConnectingFlights);
+		api.connectingFlightAlternative().subscribeAppearing(this::watchAppearingConnectingFlightAlternatives);
+		api.connectingFlightAlternative().subscribeDisappearing(this::watchDisappearingConnectingFlightAlternatives);
 	}
 	
-	public void update() {
+	public synchronized void update() {
 		api.updateMatches();
+		System.out.println("***\nOverall status:\n***");
 		System.out.println("Detected "+flight2Arrival.size()+" flights overall.");
 		System.out.println("Detected "+flight2Travels.size()+" flights with booked travels.");
 		System.out.println("Detected "+flight2Travels.values().stream().map(travels -> travels.size()).reduce(0, (sum, value) -> sum + value)+" travels overall.");
 		System.out.println("Detected "+travel2ConnectingFlights.values().stream().map(travels -> travels.size()).reduce(0, (sum, value) -> sum + value)+" intact connecting flights in travels overall.");
-		System.out.println("*** Appeared warnings and conflicts:");
+		System.out.println("Detected "+travel2DelayedConnectingFlights.values().stream().map(travels -> travels.size()).reduce(0, (sum, value) -> sum + value)+" broken/delayed connecting flights in travels overall.");
+		System.out.println("Detected "+travel2AlternativeConnectingFlights.values().stream().map(travels -> travels.size()).reduce(0, (sum, value) -> sum + value)+" alternative connecting flights in travels overall.");
+		System.out.println("***\nAppeared warnings and conflicts:\n***");
 		while(!warnings.isEmpty()) {
-			System.out.println(((LinkedList<String>)warnings).poll());
+			System.err.println(warnings.poll());
 		}
-		System.out.println("*** Appeared infos and resolved conflicts:");
+		System.out.println("***\nAppeared infos and resolved conflicts:\n***");
 		while(!infos.isEmpty()) {
-			System.out.println(((LinkedList<String>)infos).poll());
+			System.out.println(infos.poll());
 		}
+		System.out.println("***\n***\n");
 	}
 	
 	public void shutdown() {
 		api.terminate();
 	}
 	
-	private void watchAppearingFlights(FlightMatch match) {
+	private synchronized void watchAppearingFlights(FlightMatch match) {
 		flight2Travels.putIfAbsent(match.getFlight(), new HashSet<>());
 		flight2Arrival.putIfAbsent(match.getFlight(), match.getFlight().getArrival().getTime());
+		overfullAlternatives.put(match.getFlight(), new HashSet<>());
 	}
 	
-	private void watchDisappearingFlights(FlightMatch match) {
+	private synchronized void watchDisappearingFlights(FlightMatch match) {
 		flight2Travels.remove(match.getFlight());
 		flight2Arrival.remove(match.getFlight());
+		overfullAlternatives.remove(match.getFlight());
 	}
 	
-	private void watchDisappearingTravels(TravelMatch match) {
+	private synchronized void watchDisappearingTravels(TravelMatch match) {
 		Collection<Flight> flights = match.getTravel().getFlights();
 		for(Flight flight : flights) {
 			Set<Travel> travels = flight2Travels.get(flight);
@@ -126,10 +147,11 @@ public class FlightGTMonitor {
 				infos.add("Travel "+match.getTravel().getID()+" completed or canceled. Therefore, the issue concerning the delayed connecting flight "+connectingFlight.getConnectingFlight().getID()+" has been resolved.\n");
 			});
 		}
+		travel2AlternativeConnectingFlights.remove(match.getTravel());
 	}
 	
-	private void watchAppearingFlightsWithTravels(TravelWithFlightMatch match) {
-		Flight flight = match.getFlight();
+	private synchronized void watchAppearingFlightsWithTravels(TravelWithFlightMatch match) {
+		final Flight flight = match.getFlight();
 		Set<Travel> travels = flight2Travels.get(flight);
 		if(travels == null) {
 			travels = new HashSet<>();
@@ -137,22 +159,65 @@ public class FlightGTMonitor {
 		}
 		travels.add(match.getTravel());
 		Plane plane = match.getPlane();
-		if(plane.getCapacity()<travels.size()) {
-			warnings.add("Plane on flight "+flight.getID()+" is overbooked(#travels="+travels.size()+") but capacity is "+plane.getCapacity()+".");
+		if(plane.getCapacity() <= travels.size()) {
+			if(plane.getCapacity() < travels.size()) {
+				warnings.add("Plane on flight "+flight.getID()+" is overbooked (#travels="+travels.size()+") and capacity is "+plane.getCapacity()+".");
+			}else {
+				warnings.add("Plane on flight "+flight.getID()+" is full (#travels="+travels.size()+") and capacity is "+plane.getCapacity()+".");
+			}
+			
+			List<ConnectingFlightAlternativeMatch> removedAlternatives = travel2AlternativeConnectingFlights.values()
+					.parallelStream()
+					.flatMap(altMatchSet -> altMatchSet.stream())
+					.filter(altMatch -> altMatch.getFlight().equals(flight))
+					.collect(Collectors.toList());
+			
+			for(ConnectingFlightAlternativeMatch removal : removedAlternatives) {
+				Set<ConnectingFlightAlternativeMatch> alternatives = travel2AlternativeConnectingFlights.get(removal.getTravel());
+				if(alternatives != null) {
+					alternatives.remove(removal);
+					Set<ConnectingFlightAlternativeMatch> overfull = overfullAlternatives.get(flight);
+					if(overfull == null) {
+						overfull = new HashSet<>();
+						overfullAlternatives.put(flight, overfull);
+					}
+					overfull.add(removal);
+					infos.add("Travel "+removal.getTravel().getID() + " hast lost its alternative connecting flight " + removal.getReplacementFlight().getID() + " since the plane is full..\n");
+				}
+				
+			}
 		}
+		
 	}
 	
-	private void watchDisappearingFlightsWithTravels(TravelWithFlightMatch match) {
+	private synchronized void watchDisappearingFlightsWithTravels(TravelWithFlightMatch match) {
 		Flight flight = match.getFlight();
 		Set<Travel> travels = flight2Travels.get(flight);
 		if(travels != null) {
+			Plane plane = match.getPlane();
+			if(plane.getCapacity() > travels.size() - 1) {
+				List<ConnectingFlightAlternativeMatch> removals = new LinkedList<>();
+				Set<ConnectingFlightAlternativeMatch> overfull = overfullAlternatives.get(flight);
+				if(overfull != null) {
+					for(ConnectingFlightAlternativeMatch alternative : overfull) {
+						infos.add("Travel "+alternative.getTravel().getID() + " has gained an alternative connecting flight " + alternative.getReplacementFlight().getID() + " since the plane some seats left.\n");
+						removals.add(alternative);
+						Set<ConnectingFlightAlternativeMatch> alternatives = travel2AlternativeConnectingFlights.get(alternative.getTravel());
+						if(alternatives == null) {
+							alternatives = new HashSet<>();
+							travel2AlternativeConnectingFlights.put(alternative.getTravel(), alternatives);
+						}
+						alternatives.add(alternative);
+					}
+				}
+				overfull.removeAll(removals);
+			}
 			travels.remove(match.getTravel());
 		}
 	}
 	
-	private void watchAppearingConnectingFlights(TravelHasConnectingFlightMatch match) {
-		long dGates = (long)(match.getTransitAirport().getSize() 
-				* getTimeInMs(Math.abs(match.getArrivalGate().getPosition()-match.getDepartingGate().getPosition())));
+	private synchronized void watchAppearingConnectingFlights(TravelHasConnectingFlightMatch match) {
+		long dGates = calcGateDistance(match.getTransitAirport(), match.getArrivalGate(), match.getDepartingGate());
 		long arrival = match.getFlight().getArrival().getTime();
 		long departure = match.getConnectingFlight().getDeparture().getTime();
 		if(arrival+dGates > departure) {
@@ -168,6 +233,24 @@ public class FlightGTMonitor {
 			if(connectingFlights != null) {
 				connectingFlights.remove(match);
 			}
+			
+			Set<ConnectingFlightAlternativeMatch> connectingAlternatives = travel2AlternativeConnectingFlights.get(match.getTravel());
+			if(connectingAlternatives!=null) {
+				for(ConnectingFlightAlternativeMatch connectingFlightAlternative : connectingAlternatives) {
+					long dGatesAlt = calcGateDistance(match.getTransitAirport(), match.getArrivalGate(), connectingFlightAlternative.getReplacementDepartingGate());
+					long arrivalAlt = match.getFlight().getArrival().getTime();
+					long departureAlt = connectingFlightAlternative.getReplacementFlight().getDeparture().getTime();
+					
+					if(arrivalAlt + dGatesAlt <= departureAlt 
+							&& connectingFlightAlternative.getFlight().getPlane().getCapacity() >= flight2Travels.get(connectingFlightAlternative.getFlight()).size() + 1) {
+						if(match.getTransitAirport() == connectingFlightAlternative.getTransitAirport() && match.getConnectingRoute().getTrg() == connectingFlightAlternative.getConnectingRoute().getTrg()) {
+							infos.add("Travel "+match.getTravel().getID()+" can reach its destination via alternative connecting flight "+connectingFlightAlternative.getReplacementFlight().getID()+".\n"+
+									"---> ETA: "+getString_mmhhDDMMYYYY(arrivalAlt)+", distance to gate: "+deltaAsString(dGatesAlt)+", ETD: "+getString_mmhhDDMMYYYY(departureAlt));
+						}						
+					}
+				}
+			}
+			
 			return;
 		}
 		
@@ -188,7 +271,7 @@ public class FlightGTMonitor {
 		}
 	}
 	
-	private void watchDisappearingConnectingFlights(TravelHasConnectingFlightMatch match) {
+	private synchronized void watchDisappearingConnectingFlights(TravelHasConnectingFlightMatch match) {
 		Set<TravelHasConnectingFlightMatch> brokenFlights = travel2DelayedConnectingFlights.get(match.getTravel());
 		if(brokenFlights == null) {
 			brokenFlights = new HashSet<>();
@@ -201,9 +284,26 @@ public class FlightGTMonitor {
 		if(connectingFlights != null) {
 			connectingFlights.remove(match);
 		}
+		
+		Set<ConnectingFlightAlternativeMatch> connectingAlternatives = travel2AlternativeConnectingFlights.get(match.getTravel());
+		if(connectingAlternatives!=null) {
+			for(ConnectingFlightAlternativeMatch connectingFlightAlternative : connectingAlternatives) {
+				long dGatesAlt = calcGateDistance(match.getTransitAirport(), match.getArrivalGate(), connectingFlightAlternative.getReplacementDepartingGate());
+				long arrivalAlt = match.getFlight().getArrival().getTime();
+				long departureAlt = connectingFlightAlternative.getReplacementFlight().getDeparture().getTime();
+				
+				if(arrivalAlt + dGatesAlt <= departureAlt 
+						&& connectingFlightAlternative.getFlight().getPlane().getCapacity() >= flight2Travels.get(connectingFlightAlternative.getFlight()).size() + 1) {
+					if(match.getTransitAirport() == connectingFlightAlternative.getTransitAirport() && match.getConnectingRoute().getTrg() == connectingFlightAlternative.getConnectingRoute().getTrg()) {
+						infos.add("Travel "+match.getTravel().getID()+" can reach its destination via alternative connecting flight "+connectingFlightAlternative.getReplacementFlight().getID()+".\n"+
+								"---> ETA: "+getString_mmhhDDMMYYYY(arrivalAlt)+", distance to gate: "+deltaAsString(dGatesAlt)+", ETD: "+getString_mmhhDDMMYYYY(departureAlt));
+					}						
+				}
+			}
+		}
 	}
 	
-	private void watchFlightArrivals(FlightWithArrivalMatch match) {
+	private synchronized void watchFlightArrivals(FlightWithArrivalMatch match) {
 		Long prevArrival = flight2Arrival.get(match.getFlight());
 		if(prevArrival == null)
 			return;
@@ -228,8 +328,7 @@ public class FlightGTMonitor {
 				Set<TravelHasConnectingFlightMatch> removedFlights = new HashSet<>();
 				
 				for(TravelHasConnectingFlightMatch brokenFlight : brokenFlights) {
-					long dGates = (long)(brokenFlight.getTransitAirport().getSize() 
-							* getTimeInMs(Math.abs(brokenFlight.getArrivalGate().getPosition()-brokenFlight.getDepartingGate().getPosition())));
+					long dGates = calcGateDistance(brokenFlight.getTransitAirport(), brokenFlight.getArrivalGate(), brokenFlight.getDepartingGate());
 					long arrival = brokenFlight.getFlight().getArrival().getTime();
 					long departure = brokenFlight.getConnectingFlight().getDeparture().getTime();
 					
@@ -263,8 +362,7 @@ public class FlightGTMonitor {
 				Set<TravelHasConnectingFlightMatch> removedFlights = new HashSet<>();
 				
 				for(TravelHasConnectingFlightMatch connectingFlight : connectingFlights) {
-					long dGates = (long)(connectingFlight.getTransitAirport().getSize() 
-							* getTimeInMs(Math.abs(connectingFlight.getArrivalGate().getPosition()-connectingFlight.getDepartingGate().getPosition())));
+					long dGates = calcGateDistance(connectingFlight.getTransitAirport(), connectingFlight.getArrivalGate(), connectingFlight.getDepartingGate());
 					long arrival = connectingFlight.getFlight().getArrival().getTime();
 					long departure = connectingFlight.getConnectingFlight().getDeparture().getTime();
 					
@@ -278,6 +376,23 @@ public class FlightGTMonitor {
 						}
 						brokenFlights.add(connectingFlight);
 						removedFlights.add(connectingFlight);
+						
+						Set<ConnectingFlightAlternativeMatch> connectingAlternatives = travel2AlternativeConnectingFlights.get(connectingFlight.getTravel());
+						if(connectingAlternatives!=null) {
+							for(ConnectingFlightAlternativeMatch connectingFlightAlternative : connectingAlternatives) {
+								long dGatesAlt = calcGateDistance(connectingFlight.getTransitAirport(), connectingFlight.getArrivalGate(), connectingFlightAlternative.getReplacementDepartingGate());
+								long arrivalAlt = connectingFlightAlternative.getFlight().getArrival().getTime();
+								long departureAlt = connectingFlightAlternative.getReplacementFlight().getDeparture().getTime();
+								
+								if(arrivalAlt + dGatesAlt <= departureAlt 
+										&& connectingFlightAlternative.getFlight().getPlane().getCapacity() >= flight2Travels.get(connectingFlightAlternative.getFlight()).size() + 1) {
+									if(connectingFlight.getTransitAirport() == connectingFlightAlternative.getTransitAirport() && connectingFlight.getConnectingRoute().getTrg() == connectingFlightAlternative.getConnectingRoute().getTrg()) {
+										infos.add("Travel "+connectingFlight.getTravel().getID()+" can reach its destination via alternative connecting flight "+connectingFlightAlternative.getReplacementFlight().getID()+".\n"+
+												"---> ETA: "+getString_mmhhDDMMYYYY(arrivalAlt)+", distance to gate: "+deltaAsString(dGatesAlt)+", ETD: "+getString_mmhhDDMMYYYY(departureAlt));
+									}						
+								}
+							}
+						}
 					}
 				}
 				
@@ -287,6 +402,45 @@ public class FlightGTMonitor {
 			}
 		}
 			
+	}
+	
+	private synchronized void watchAppearingConnectingFlightAlternatives(ConnectingFlightAlternativeMatch match) {
+		Set<ConnectingFlightAlternativeMatch> alternatives = travel2AlternativeConnectingFlights.get(match.getTravel());
+		if(alternatives == null) {
+			alternatives = new HashSet<>();
+			travel2AlternativeConnectingFlights.put(match.getTravel(), alternatives);
+		}
+		
+		long dGates = calcGateDistance(match.getTransitAirport(), match.getArrivalGate(), match.getReplacementDepartingGate());
+		long arrival = match.getFlight().getArrival().getTime();
+		long departure = match.getReplacementFlight().getDeparture().getTime();
+		
+		if(arrival + dGates <= departure 
+				&& match.getFlight().getPlane().getCapacity() >= flight2Travels.get(match.getFlight()).size() + 1) {
+			alternatives.add(match);
+			Set<TravelHasConnectingFlightMatch> brokenConnectingFlights = travel2DelayedConnectingFlights.get(match.getTravel());
+			if(brokenConnectingFlights != null) {
+				for(TravelHasConnectingFlightMatch brokenConnectingFlight : brokenConnectingFlights) {
+					if(match.getTransitAirport() == brokenConnectingFlight.getTransitAirport() && match.getTargetAirport() == brokenConnectingFlight.getConnectingRoute().getTrg()) {
+						infos.add("Travel "+brokenConnectingFlight.getTravel().getID()+" can reach its destination via alternative connecting flight "+match.getReplacementFlight().getID()+".\n"+
+								"---> ETA: "+getString_mmhhDDMMYYYY(arrival)+", distance to gate: "+deltaAsString(dGates)+", ETD: "+getString_mmhhDDMMYYYY(departure));
+					}
+				}
+			}
+				
+		}
+	}
+	
+	private synchronized void watchDisappearingConnectingFlightAlternatives(ConnectingFlightAlternativeMatch match) {
+		Set<ConnectingFlightAlternativeMatch> alternatives = travel2AlternativeConnectingFlights.get(match.getTravel());
+		if(alternatives != null) {
+			alternatives.remove(match);
+		}
+	}
+	
+	public synchronized static long calcGateDistance(final Airport airport, final Gate arrival, final Gate departure) {
+//		return (long)(airport.getSize() * getTimeInMs(Math.abs(arrival.getPosition()-departure.getPosition())));
+		return (long)(0.1 * getTimeInMs(Math.abs(arrival.getPosition()-departure.getPosition())));
 	}
 
 }

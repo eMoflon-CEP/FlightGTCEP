@@ -1,24 +1,5 @@
 import "platform:/resource/Flights/model/Flights.ecore"
 
-pattern airport() {
-	airport: Airport
-}
-
-pattern gate() refines airport{
-	gate : Gate
-	airport : Airport {
-		-gates->gate
-	}
-}
-
-pattern route() {
-	route : Route
-}
-
-pattern plane() {
-	plane : Plane
-}
-
 pattern travel() {
 	travel : Travel
 }
@@ -27,12 +8,26 @@ pattern travel() {
  * track new/updated flights in a pattern for Apama to filter delayed flights
  */
 pattern flight() {
-	route: Route
+	route: Route 
 	flight: Flight {
 		-route->route
 		-plane->plane
 	}
 	plane : Plane
+}
+
+pattern flightSrcGate() refines flight {
+	flight: Flight {
+		-src->src
+	}
+	src : Gate
+}
+
+pattern flightTrgGate() refines flight {
+	flight: Flight {
+		-trg->trg
+	}
+	trg : Gate
 }
 
 /*
@@ -191,12 +186,12 @@ pattern directFlight() refines flight{
 	}
 	
 	route : Route {
-		-src->src
-		-trg->trg
+		-src->srcAirport
+		-trg->trgAirport
 	}
 	
-	src : Airport
-	trg : Airport
+	srcAirport : Airport
+	trgAirport : Airport
 }
 
 /* 
@@ -221,7 +216,7 @@ pattern directFlightConnectingAlternative() refines directFlight {
 	flight1Arrival : TimeStamp
 	
 	route1 : Route {
-		-src->src
+		-src->srcAirport
 		-trg->transitAirport
 	}
 	
@@ -239,6 +234,6 @@ pattern directFlightConnectingAlternative() refines directFlight {
 	
 	route2 : Route {
 		-src->transitAirport
-		-trg->trg
+		-trg->trgAirport
 	}
 }
