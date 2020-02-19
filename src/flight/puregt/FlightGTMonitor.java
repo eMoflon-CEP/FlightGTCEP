@@ -98,7 +98,8 @@ public class FlightGTMonitor {
 	
 	public synchronized void update() {
 		api.updateMatches();
-		System.out.println("***\nOverall status:\n***");
+		FlightModel container = (FlightModel)api.getModel().getResources().get(0).getContents().get(0);
+		System.out.println("*** Time: "+container.getGlobalTime().getTime() +"\nOverall status:\n***");
 		System.out.println("Detected "+flight2Arrival.size()+" flights overall.");
 		System.out.println("Detected "+flight2Travels.size()+" flights with booked travels.");
 		System.out.println("Detected "+flight2Travels.values().stream().map(travels -> travels.size()).reduce(0, (sum, value) -> sum + value)+" travels overall.");
@@ -291,6 +292,8 @@ public class FlightGTMonitor {
 				long dGatesAlt = calcGateDistance(match.getTransitAirport(), match.getArrivalGate(), connectingFlightAlternative.getReplacementDepartingGate());
 				long arrivalAlt = match.getFlight().getArrival().getTime();
 				long departureAlt = connectingFlightAlternative.getReplacementFlight().getDeparture().getTime();
+				if(flight2Travels.get(connectingFlightAlternative.getFlight()) == null)
+					continue;
 				
 				if(arrivalAlt + dGatesAlt <= departureAlt 
 						&& connectingFlightAlternative.getFlight().getPlane().getCapacity() >= flight2Travels.get(connectingFlightAlternative.getFlight()).size() + 1) {
@@ -383,6 +386,9 @@ public class FlightGTMonitor {
 								long dGatesAlt = calcGateDistance(connectingFlight.getTransitAirport(), connectingFlight.getArrivalGate(), connectingFlightAlternative.getReplacementDepartingGate());
 								long arrivalAlt = connectingFlightAlternative.getFlight().getArrival().getTime();
 								long departureAlt = connectingFlightAlternative.getReplacementFlight().getDeparture().getTime();
+								
+								if(flight2Travels.get(connectingFlightAlternative.getFlight()) == null)
+									continue;
 								
 								if(arrivalAlt + dGatesAlt <= departureAlt 
 										&& connectingFlightAlternative.getFlight().getPlane().getCapacity() >= flight2Travels.get(connectingFlightAlternative.getFlight()).size() + 1) {
