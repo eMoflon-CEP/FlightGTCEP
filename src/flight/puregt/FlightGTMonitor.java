@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
+import org.emoflon.ibex.gt.api.GraphTransformationMatch;
 
 import static org.emoflon.flight.model.util.LongDateHelper.getTimeInMs;
 import static org.emoflon.flight.model.util.LongDateHelper.deltaAsString;
@@ -46,8 +48,13 @@ public class FlightGTMonitor {
 	protected Map<Travel, Set<TravelHasConnectingFlightMatch>> travel2ConnectingFlights;
 	protected Map<Travel, SortedSet<ConnectingFlightAlternativeMatch>> travel2AlternativeConnectingFlights;
 	protected Map<Flight, Set<ConnectingFlightAlternativeMatch>> overfullAlternatives;
-	protected LinkedBlockingQueue<String> warnings;
-	protected LinkedBlockingQueue<String> infos;
+	protected LinkedBlockingQueue<String> issueMessages;
+	protected LinkedBlockingQueue<String> infoMessages;
+	protected LinkedBlockingQueue<String> solutionMessages;
+	@SuppressWarnings("rawtypes")
+	protected Set<FlightGTIssueEvent<GraphTransformationMatch>> issues;
+	@SuppressWarnings("rawtypes")
+	protected Set<FlightGTSolutionEvent<GraphTransformationMatch, GraphTransformationMatch>> solutions;
 	
 	public void init(String modelPath) {
 		app = new FlightGTCEPHiPEApp();
@@ -76,9 +83,12 @@ public class FlightGTMonitor {
 		travel2ConnectingFlights  = Collections.synchronizedMap(new HashMap<>());
 		travel2AlternativeConnectingFlights = Collections.synchronizedMap(new HashMap<>());
 		overfullAlternatives = Collections.synchronizedMap(new HashMap<>());
+		issues = Collections.synchronizedSet(new LinkedHashSet<>());
+		solutions = Collections.synchronizedSet(new LinkedHashSet<>());
 		
-		warnings = new LinkedBlockingQueue<>();
-		infos = new LinkedBlockingQueue<>();
+		issueMessages = new LinkedBlockingQueue<>();
+		infoMessages = new LinkedBlockingQueue<>();
+		solutionMessages = new LinkedBlockingQueue<>();
 	}
 
 	public void initMatchSubscribers() {
@@ -118,14 +128,19 @@ public class FlightGTMonitor {
 				.reduce(0, (sum, value) -> sum + value)
 				+ " alternative connecting flights in travels overall.");
 
-		sb.append("\n***\nAppeared warnings and conflicts:\n***");
-		while(!warnings.isEmpty()) {
-			sb.append("\n"+warnings.poll());
+		sb.append("\n***\nAppeared issues:\n***");
+		while(!issueMessages.isEmpty()) {
+			sb.append("\n"+issueMessages.poll());
 		}
 		
-		sb.append("\n***\nAppeared infos and resolved conflicts:\n***");
-		while(!infos.isEmpty()) {
-			sb.append("\n"+infos.poll());
+		sb.append("\n***\nAppeared events:\n***");
+		while(!infoMessages.isEmpty()) {
+			sb.append("\n"+infoMessages.poll());
+		}
+		
+		sb.append("\n***\nAppeared solutions:\n***");
+		while(!solutionMessages.isEmpty()) {
+			sb.append("\n"+solutionMessages.poll());
 		}
 		sb.append("\n***\n***");
 		System.out.println(sb.toString());
@@ -160,12 +175,14 @@ public class FlightGTMonitor {
 		if(travel2DelayedConnectingFlights.containsKey(match.getTravel())) {
 			travel2DelayedConnectingFlights.get(match.getTravel())
 			.forEach(connectingFlight -> {
-				infos.add("Travel "+match.getTravel().getID()+" completed or canceled. Therefore, the issue concerning the delayed connecting flight "+connectingFlight.getConnectingFlight().getID()+" has been resolved.\n");
+				infoMessages.add("Travel "+match.getTravel().getID()+" completed or canceled. Therefore, the issue concerning the delayed connecting flight "+connectingFlight.getConnectingFlight().getID()+" has been resolved.\n");
 			});
 		}
 		travel2DelayedConnectingFlights.remove(match.getTravel());
 		
 		travel2AlternativeConnectingFlights.remove(match.getTravel());
+		
+		//TODO: Cleanup issues and solutions!
 	}
 	
 	private synchronized void watchAppearingFlightsWithTravels(TravelWithFlightMatch match) {
@@ -179,9 +196,9 @@ public class FlightGTMonitor {
 		Plane plane = match.getPlane();
 		if(plane.getCapacity() <= travels.size()) {
 			if(plane.getCapacity() < travels.size()) {
-				warnings.add("Plane on flight "+flight.getID()+" is overbooked (#travels="+travels.size()+") and capacity is "+plane.getCapacity()+".");
+				addIssue(match, "Plane on flight "+flight.getID()+" is overbooked (#travels="+travels.size()+") and capacity is "+plane.getCapacity()+".");
 			}else {
-				warnings.add("Plane on flight "+flight.getID()+" is full (#travels="+travels.size()+") and capacity is "+plane.getCapacity()+".");
+				infoMessages.add("Plane on flight "+flight.getID()+" is full (#travels="+travels.size()+") and capacity is "+plane.getCapacity()+".");
 			}
 			
 			List<ConnectingFlightAlternativeMatch> removedAlternatives = travel2AlternativeConnectingFlights.values()
@@ -200,7 +217,8 @@ public class FlightGTMonitor {
 						overfullAlternatives.put(flight, overfull);
 					}
 					overfull.add(removal);
-					infos.add("Travel "+removal.getTravel().getID() + " hast lost its alternative connecting flight " + removal.getReplacementFlight().getID() + " since the plane is full..\n");
+					//TODO: Does this become an issue?
+					infoMessages.add("Travel "+removal.getTravel().getID() + " hast lost its alternative connecting flight " + removal.getReplacementFlight().getID() + " since the plane is full..\n");
 				}
 				
 			}
@@ -218,15 +236,19 @@ public class FlightGTMonitor {
 				Set<ConnectingFlightAlternativeMatch> overfull = overfullAlternatives.get(flight);
 				if(overfull != null) {
 					for(ConnectingFlightAlternativeMatch alternative : overfull) {
-						infos.add("Travel "+alternative.getTravel().getID() + " has gained an alternative connecting flight " + alternative.getReplacementFlight().getID() + " since the plane some seats left.\n");
+						infoMessages.add("Travel "+alternative.getTravel().getID() + " has gained an alternative connecting flight " + alternative.getReplacementFlight().getID() + " since the plane some seats left.\n");
 						removals.add(alternative);
 						SortedSet<ConnectingFlightAlternativeMatch> alternatives = travel2AlternativeConnectingFlights.get(alternative.getTravel());
 						if(alternatives == null) {
-//							alternatives = new HashSet<>();
 							alternatives = createSortedSet();
 							travel2AlternativeConnectingFlights.put(alternative.getTravel(), alternatives);
 						}
 						alternatives.add(alternative);
+						if(alternatives.first().equals(alternative)) {
+							//TODO: Search for the correct connecting flight -> TravelWithFlightMatch match is the wrong type of issue match!
+							addSolution(match, alternative, "Travel "+match.getTravel().getID()+" can reach its destination via alternative connecting flight "+alternative.getReplacementFlight().getID()+".\n"+
+									"---> ETA: "+getString_mmhhDDMMYYYY(alternative.getFlight().getArrival().getTime()) + ", ETD: "+getString_mmhhDDMMYYYY(alternative.getReplacementDeparture().getTime()));
+						}
 					}
 				}
 				overfull.removeAll(removals);
@@ -240,7 +262,7 @@ public class FlightGTMonitor {
 		long arrival = match.getFlight().getArrival().getTime();
 		long departure = match.getConnectingFlight().getDeparture().getTime();
 		if(arrival+dGates > departure) {
-			warnings.add("Travel "+match.getTravel().getID()+" will miss its connecting flight "+match.getConnectingFlight().getID()+" due to a delayed arrival time.\n"+
+			addIssue(match, "Travel "+match.getTravel().getID()+" will miss its connecting flight "+match.getConnectingFlight().getID()+" due to a delayed arrival time.\n"+
 						"---> ETA: "+getString_mmhhDDMMYYYY(arrival)+", distance to gate: "+deltaAsString(dGates)+", ETD: "+getString_mmhhDDMMYYYY(departure));
 			Set<TravelHasConnectingFlightMatch> brokenFlights = travel2DelayedConnectingFlights.get(match.getTravel());
 			if(brokenFlights == null) {
@@ -263,7 +285,7 @@ public class FlightGTMonitor {
 					if(arrivalAlt + dGatesAlt <= departureAlt 
 							&& connectingFlightAlternative.getFlight().getPlane().getCapacity() >= flight2Travels.get(connectingFlightAlternative.getFlight()).size() + 1) {
 						if(match.getTransitAirport() == connectingFlightAlternative.getTransitAirport() && match.getConnectingRoute().getTrg() == connectingFlightAlternative.getConnectingRoute().getTrg()) {
-							infos.add("Travel "+match.getTravel().getID()+" can reach its destination via alternative connecting flight "+connectingFlightAlternative.getReplacementFlight().getID()+".\n"+
+							addSolution(match, connectingFlightAlternative, "Travel "+match.getTravel().getID()+" can reach its destination via alternative connecting flight "+connectingFlightAlternative.getReplacementFlight().getID()+".\n"+
 									"---> ETA: "+getString_mmhhDDMMYYYY(arrivalAlt)+", distance to gate: "+deltaAsString(dGatesAlt)+", ETD: "+getString_mmhhDDMMYYYY(departureAlt));
 							break;
 						}						
@@ -284,7 +306,7 @@ public class FlightGTMonitor {
 		Set<TravelHasConnectingFlightMatch> brokenFlights = travel2DelayedConnectingFlights.get(match.getTravel());
 		if(brokenFlights != null) {
 			if(brokenFlights.remove(match)) {
-				infos.add("Travel "+match.getTravel().getID()+" will make its connecting flight "+match.getConnectingFlight().getID()+" since the delay has been resolved.\n"+
+				infoMessages.add("Travel "+match.getTravel().getID()+" will make its connecting flight "+match.getConnectingFlight().getID()+" since the delay has been resolved.\n"+
 						"---> ETA: "+getString_mmhhDDMMYYYY(arrival)+", distance to gate: "+deltaAsString(dGates)+", ETD: "+getString_mmhhDDMMYYYY(departure));
 				connectingFlights.add(match);
 			}
@@ -297,7 +319,7 @@ public class FlightGTMonitor {
 			brokenFlights = new HashSet<>();
 			travel2DelayedConnectingFlights.put(match.getTravel(), brokenFlights);
 		}
-		warnings.add("Travel "+match.getTravel().getID()+" will miss its connecting flight "+match.getConnectingFlight().getID());
+		addIssue(match, "Travel "+match.getTravel().getID()+" will miss its connecting flight "+match.getConnectingFlight().getID());
 		brokenFlights.add(match);
 		
 		Set<TravelHasConnectingFlightMatch> connectingFlights = travel2ConnectingFlights.get(match.getTravel());
@@ -317,7 +339,7 @@ public class FlightGTMonitor {
 				if(arrivalAlt + dGatesAlt <= departureAlt 
 						&& connectingFlightAlternative.getFlight().getPlane().getCapacity() >= flight2Travels.get(connectingFlightAlternative.getFlight()).size() + 1) {
 					if(match.getTransitAirport() == connectingFlightAlternative.getTransitAirport() && match.getConnectingRoute().getTrg() == connectingFlightAlternative.getConnectingRoute().getTrg()) {
-						infos.add("Travel "+match.getTravel().getID()+" can reach its destination via alternative connecting flight "+connectingFlightAlternative.getReplacementFlight().getID()+".\n"+
+						addSolution(match, connectingFlightAlternative, "Travel "+match.getTravel().getID()+" can reach its destination via alternative connecting flight "+connectingFlightAlternative.getReplacementFlight().getID()+".\n"+
 								"---> ETA: "+getString_mmhhDDMMYYYY(arrivalAlt)+", distance to gate: "+deltaAsString(dGatesAlt)+", ETD: "+getString_mmhhDDMMYYYY(departureAlt));
 						break;
 					}						
@@ -340,7 +362,7 @@ public class FlightGTMonitor {
 		
 		// check travels in case of a early arrival
 		if(currentArrival<prevArrival) {
-			infos.add("Flight "+match.getFlight().getID()+" will arrive early by "+ deltaAsString(prevArrival-currentArrival) +"minutes.\n"+
+			infoMessages.add("Flight "+match.getFlight().getID()+" will arrive early by "+ deltaAsString(prevArrival-currentArrival) +"minutes.\n"+
 					"---> current ETA: "+getString_mmhhDDMMYYYY(currentArrival)+", original ETA: "+getString_mmhhDDMMYYYY(prevArrival));
 			
 			for(Travel travel : travels) {
@@ -356,8 +378,9 @@ public class FlightGTMonitor {
 					long departure = brokenFlight.getConnectingFlight().getDeparture().getTime();
 					
 					if(arrival+dGates <= departure) {
-						infos.add("Travel "+brokenFlight.getTravel().getID()+" will now make its connecting flight "+brokenFlight.getConnectingFlight().getID()+" since the delay has been resolved.\n"+
+						infoMessages.add("Travel "+brokenFlight.getTravel().getID()+" will now make its connecting flight "+brokenFlight.getConnectingFlight().getID()+" since the delay has been resolved.\n"+
 								"---> ETA: "+getString_mmhhDDMMYYYY(arrival)+", distance to gate: "+deltaAsString(dGates)+", ETD: "+getString_mmhhDDMMYYYY(departure));
+						//TODO: Delete issues!
 						Set<TravelHasConnectingFlightMatch> connectedFlights = travel2ConnectingFlights.get(brokenFlight.getTravel());
 						if(connectedFlights == null) {
 							connectedFlights = new HashSet<>();
@@ -374,7 +397,7 @@ public class FlightGTMonitor {
 		}
 		// check travels in case of a delay
 		else if(currentArrival>prevArrival) {
-			warnings.add("Flight "+match.getFlight().getID()+" currently has a delay of "+ deltaAsString(currentArrival-prevArrival) +"minutes.\n"+
+			infoMessages.add("Flight "+match.getFlight().getID()+" currently has a delay of "+ deltaAsString(currentArrival-prevArrival) +"minutes.\n"+
 					"---> current ETA: "+getString_mmhhDDMMYYYY(currentArrival)+", original ETA: "+getString_mmhhDDMMYYYY(prevArrival));
 			
 			for(Travel travel : travels) {
@@ -390,7 +413,7 @@ public class FlightGTMonitor {
 					long departure = connectingFlight.getConnectingFlight().getDeparture().getTime();
 					
 					if(arrival+dGates > departure) {
-						warnings.add("Travel "+connectingFlight.getTravel().getID()+" will miss its connecting flight "+connectingFlight.getConnectingFlight().getID()+" due to a delayed arrival time.\n"+
+						addIssue(connectingFlight, "Travel "+connectingFlight.getTravel().getID()+" will miss its connecting flight "+connectingFlight.getConnectingFlight().getID()+" due to a delayed arrival time.\n"+
 									"---> ETA: "+getString_mmhhDDMMYYYY(arrival)+", distance to gate: "+deltaAsString(dGates)+", ETD: "+getString_mmhhDDMMYYYY(departure));
 						Set<TravelHasConnectingFlightMatch> brokenFlights = travel2DelayedConnectingFlights.get(connectingFlight.getTravel());
 						if(brokenFlights == null) {
@@ -413,7 +436,7 @@ public class FlightGTMonitor {
 								if(arrivalAlt + dGatesAlt <= departureAlt 
 										&& connectingFlightAlternative.getFlight().getPlane().getCapacity() >= flight2Travels.get(connectingFlightAlternative.getFlight()).size() + 1) {
 									if(connectingFlight.getTransitAirport() == connectingFlightAlternative.getTransitAirport() && connectingFlight.getConnectingRoute().getTrg() == connectingFlightAlternative.getConnectingRoute().getTrg()) {
-										infos.add("Travel "+connectingFlight.getTravel().getID()+" can reach its destination via alternative connecting flight "+connectingFlightAlternative.getReplacementFlight().getID()+".\n"+
+										addSolution(connectingFlight, connectingFlightAlternative, "Travel "+connectingFlight.getTravel().getID()+" can reach its destination via alternative connecting flight "+connectingFlightAlternative.getReplacementFlight().getID()+".\n"+
 												"---> ETA: "+getString_mmhhDDMMYYYY(arrivalAlt)+", distance to gate: "+deltaAsString(dGatesAlt)+", ETD: "+getString_mmhhDDMMYYYY(departureAlt));
 										break;
 									}						
@@ -434,7 +457,6 @@ public class FlightGTMonitor {
 	private synchronized void watchAppearingConnectingFlightAlternatives(ConnectingFlightAlternativeMatch match) {
 		SortedSet<ConnectingFlightAlternativeMatch> alternatives = travel2AlternativeConnectingFlights.get(match.getTravel());
 		if(alternatives == null) {
-//			alternatives = new HashSet<>();
 			alternatives = createSortedSet();
 			travel2AlternativeConnectingFlights.put(match.getTravel(), alternatives);
 		}
@@ -450,7 +472,7 @@ public class FlightGTMonitor {
 			if(brokenConnectingFlights != null && match.equals(alternatives.first())) {
 				for(TravelHasConnectingFlightMatch brokenConnectingFlight : brokenConnectingFlights) {
 					if(match.getTransitAirport() == brokenConnectingFlight.getTransitAirport() && match.getTargetAirport() == brokenConnectingFlight.getConnectingRoute().getTrg()) {
-						infos.add("Travel "+brokenConnectingFlight.getTravel().getID()+" can reach its destination via alternative connecting flight "+match.getReplacementFlight().getID()+".\n"+
+						addSolution(brokenConnectingFlight, match, "Travel "+brokenConnectingFlight.getTravel().getID()+" can reach its destination via alternative connecting flight "+match.getReplacementFlight().getID()+".\n"+
 								"---> ETA: "+getString_mmhhDDMMYYYY(arrival)+", distance to gate: "+deltaAsString(dGates)+", ETD: "+getString_mmhhDDMMYYYY(departure));
 					}
 				}
@@ -474,6 +496,18 @@ public class FlightGTMonitor {
 	public static SortedSet<ConnectingFlightAlternativeMatch> createSortedSet() {
 		Comparator<ConnectingFlightAlternativeMatch> compare = Comparator.comparing((match)->match.getReplacementFlight().getArrival().getTime());
 		return new TreeSet<ConnectingFlightAlternativeMatch>(compare);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public synchronized void addIssue(final GraphTransformationMatch match, final String issue) {
+		issues.add(new FlightGTIssueEvent<GraphTransformationMatch>(match, issue));
+		issueMessages.add(issue);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public synchronized void addSolution(final GraphTransformationMatch issueMatch, final GraphTransformationMatch solutionMatch, final String solution) {
+		solutions.add(new FlightGTSolutionEvent<GraphTransformationMatch, GraphTransformationMatch>(issueMatch, solutionMatch, solution));
+		solutionMessages.add(solution);
 	}
 
 }
