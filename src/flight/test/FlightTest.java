@@ -2,10 +2,12 @@ package flight.test;
 
 import static org.junit.Assert.assertEquals;
 
+import org.emoflon.flight.model.util.LongDateHelper;
 import org.junit.Test;
 
 import FlightGTCEP.api.FlightGTCEPAPI;
 import FlightGTCEP.api.FlightGTCEPApp;
+import Flights.Flight;
 import Flights.FlightModel;
 import flight.monitor.FlightMonitor;
 
@@ -30,10 +32,75 @@ public abstract class FlightTest {
 	}
 	
 	@Test
-	public void testFindConnectingFlights() {
+	public void testFindConnectingFlights1() {
 		init(instanceFolder+"/test1.xmi");
 		monitor.update(false);
 		assertEquals(2, monitor.getWorkingConnectingFlightTravels().size());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels().size());
+	}
+	
+	@Test
+	public void testDelayConnectingFlights1() {
+		init(instanceFolder+"/test1.xmi");
+		monitor.update(false);
+		
+		Flight flight = model.getBookings().getBookings().stream()
+							.filter(booking -> booking.getID()
+							.contains("Rick&Morty"))
+							.findAny().get().getTravels().get(0).getFlights().get(0);
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels().size());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels().size());
+
+	}
+	
+	@Test
+	public void testPromoteConnectingFlights1() {
+		init(instanceFolder+"/test1.xmi");
+		monitor.update(false);
+		
+		Flight flight = model.getBookings().getBookings().stream()
+							.filter(booking -> booking.getID()
+							.contains("Rick&Morty"))
+							.findAny().get().getTravels().get(0).getFlights().get(0);
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels().size());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels().size());
+
+	}
+	
+	@Test
+	public void testDelayPromoteConnectingFlights1() {
+		init(instanceFolder+"/test1.xmi");
+		monitor.update(false);
+		
+		Flight flight = model.getBookings().getBookings().stream()
+							.filter(booking -> booking.getID()
+							.contains("Rick&Morty"))
+							.findAny().get().getTravels().get(0).getFlights().get(0);
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels().size());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels().size());
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels().size());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels().size());
+
+	}
+	
+	public static void delayFlight(final Flight flight, int delayMins) {
+		flight.setArrival(LongDateHelper.createTimeStamp(flight.getArrival(), delayMins, true));
+	}
+	
+	public static void promoteFlight(final Flight flight, int promoteMins) {
+		flight.setArrival(LongDateHelper.createTimeStamp(flight.getArrival(), promoteMins, false));
 	}
 
 }

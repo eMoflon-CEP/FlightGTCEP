@@ -471,4 +471,9 @@ public class FlightGTMonitor extends FlightMonitor{
 		return travel2ConnectingFlights.values().stream().flatMap(set -> set.stream()).collect(Collectors.toSet());
 	}
 
+	@Override
+	public Collection<TravelHasConnectingFlightMatch> getDelayedConnectingFlightTravels() {
+		return travel2DelayedConnectingFlights.values().stream().flatMap(set -> set.stream()).collect(Collectors.toSet());
+	}
+
 }

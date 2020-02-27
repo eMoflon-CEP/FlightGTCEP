@@ -77,6 +77,7 @@ public abstract class FlightMonitor {
 	public abstract void update(boolean debug);
 	
 	public abstract Collection<TravelHasConnectingFlightMatch> getWorkingConnectingFlightTravels();
+	public abstract Collection<TravelHasConnectingFlightMatch> getDelayedConnectingFlightTravels();
 	
 	public abstract void shutdown();
 	
