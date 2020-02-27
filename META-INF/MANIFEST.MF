@@ -10,10 +10,10 @@ Require-Bundle: org.emoflon.ibex.common,
  org.emoflon.ibex.gt,
  org.emoflon.ibex.gt.democles,
  org.emoflon.ibex.gt.hipe,
- Flights
+ Flights,
+ org.junit
 Bundle-ManifestVersion: 2
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: My Company
-Import-Package: org.apache.log4j,
- org.apache.commons.logging
+Import-Package: org.apache.log4j

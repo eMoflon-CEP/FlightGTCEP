@@ -1,11 +1,6 @@
 package flight.puregt;
 
-import static org.emoflon.flight.model.util.LongDateHelper.createTimeStamp;
-import org.emoflon.flight.model.generator.SimpleModelGenerator;
 import org.emoflon.flight.scenario.ScenarioRunner;
-
-import Flights.Flight;
-import Flights.FlightModel;
 
 public class FlightGTMonitorDemo {
 
@@ -15,14 +10,14 @@ public class FlightGTMonitorDemo {
 		runner.initModelEventGenerator(15, 12, 51, 0.01, 0.5);
 		
 		FlightGTMonitor monitor = new FlightGTMonitor();
-		monitor.init(runner.getModel());
+		monitor.initModelAndEngine(runner.getModel());
 		monitor.initMatchSubscribers();
-		monitor.update();
+		monitor.update(true);
 
 		
 		for(int i = 0; i<2; i++) {
 			runner.advanceTime();
-			monitor.update();
+			monitor.update(true);
 		}
 		
 		monitor.shutdown();

@@ -2,7 +2,6 @@ package flight.puregt;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -11,36 +10,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.URI;
-import org.emoflon.ibex.gt.api.GraphTransformationMatch;
-
-import static org.emoflon.flight.model.util.LongDateHelper.getTimeInMs;
 import static org.emoflon.flight.model.util.LongDateHelper.deltaAsString;
 import static org.emoflon.flight.model.util.LongDateHelper.getString_mmhhDDMMYYYY;
 
-import FlightGTCEP.api.FlightGTCEPAPI;
-import FlightGTCEP.api.FlightGTCEPApp;
-import FlightGTCEP.api.FlightGTCEPHiPEApp;
 import FlightGTCEP.api.matches.ConnectingFlightAlternativeMatch;
 import FlightGTCEP.api.matches.FlightMatch;
 import FlightGTCEP.api.matches.FlightWithArrivalMatch;
 import FlightGTCEP.api.matches.TravelHasConnectingFlightMatch;
 import FlightGTCEP.api.matches.TravelMatch;
 import FlightGTCEP.api.matches.TravelWithFlightMatch;
-import Flights.Airport;
 import Flights.Flight;
 import Flights.FlightModel;
-import Flights.Gate;
 import Flights.Plane;
 import Flights.Travel;
+import flight.monitor.FlightMonitor;
 
-public class FlightGTMonitor {
-	protected FlightGTCEPApp app;
-	protected FlightGTCEPAPI api;
+public class FlightGTMonitor extends FlightMonitor{
 	
 	protected Map<Flight, Long> flight2Arrival;
 	protected Map<Flight, Set<Travel>> flight2Travels;
@@ -48,31 +36,16 @@ public class FlightGTMonitor {
 	protected Map<Travel, Set<TravelHasConnectingFlightMatch>> travel2ConnectingFlights;
 	protected Map<Travel, SortedSet<ConnectingFlightAlternativeMatch>> travel2AlternativeConnectingFlights;
 	protected Map<Flight, Set<ConnectingFlightAlternativeMatch>> overfullAlternatives;
-	protected LinkedBlockingQueue<String> issueMessages;
-	protected LinkedBlockingQueue<String> infoMessages;
-	protected LinkedBlockingQueue<String> solutionMessages;
-	@SuppressWarnings("rawtypes")
-	protected Set<FlightGTIssueEvent<GraphTransformationMatch>> issues;
-	@SuppressWarnings("rawtypes")
-	protected Set<FlightGTSolutionEvent<GraphTransformationMatch, GraphTransformationMatch>> solutions;
 	
-	public void init(String modelPath) {
-		app = new FlightGTCEPHiPEApp();
-		app.registerMetaModels();
-		URI uri = URI.createFileURI(modelPath);
-		app.loadModel(uri);
-		api = app.initAPI();
-		
+	@Override
+	public void initModelAndEngine(String modelPath) {
+		super.initModelAndEngine(modelPath);
 		init();
 	}
 	
-	public void init(FlightModel model) {
-		app = new FlightGTCEPHiPEApp();
-		app.registerMetaModels();
-		app.createModel(URI.createFileURI(model.toString()));
-		app.getModel().getResources().get(0).getContents().add(model);
-		api = app.initAPI();
-		
+	@Override
+	public void initModelAndEngine(FlightModel model) {
+		super.initModelAndEngine(model);
 		init();
 	}
 	
@@ -91,6 +64,7 @@ public class FlightGTMonitor {
 		solutionMessages = new LinkedBlockingQueue<>();
 	}
 
+	@Override
 	public void initMatchSubscribers() {
 		api.flight().subscribeAppearing(this::watchAppearingFlights);
 		api.flight().subscribeDisappearing(this::watchDisappearingFlights);
@@ -104,48 +78,52 @@ public class FlightGTMonitor {
 		api.connectingFlightAlternative().subscribeDisappearing(this::watchDisappearingConnectingFlightAlternatives);
 	}
 	
-	public synchronized void update() {
+	@Override
+	public synchronized void update(boolean debug) {
 		api.updateMatches();
-		StringBuilder sb = new StringBuilder();
-		FlightModel container = (FlightModel)api.getModel().getResources().get(0).getContents().get(0);
-		sb.append("*** Time: " + container.getGlobalTime().getTime() + "\nOverall status:\n***");
-		sb.append("\nDetected " + flight2Arrival.size() +" flights overall.");
-		sb.append("\nDetected " + flight2Travels.size() +" flights with booked travels.");
-		sb.append("\nDetected " + flight2Travels.values().stream()
-				.map(travels -> travels.size())
-				.reduce(0, (sum, value) -> sum + value) 
-				+ " travels overall.");
-		sb.append("\nDetected " + travel2ConnectingFlights.values().stream()
-				.map(travels -> travels.size())
-				.reduce(0, (sum, value) -> sum + value)
-				+ " intact connecting flights in travels overall.");
-		sb.append("\nDetected " + travel2DelayedConnectingFlights.values().stream()
-				.map(travels -> travels.size())
-				.reduce(0, (sum, value) -> sum + value)
-				+ " broken/delayed connecting flights in travels overall.");
-		sb.append("Detected " + travel2AlternativeConnectingFlights.values().stream()
-				.map(travels -> travels.size())
-				.reduce(0, (sum, value) -> sum + value)
-				+ " alternative connecting flights in travels overall.");
+		if(debug) {
+			StringBuilder sb = new StringBuilder();
+			FlightModel container = (FlightModel)api.getModel().getResources().get(0).getContents().get(0);
+			sb.append("*** Time: " + container.getGlobalTime().getTime() + "\nOverall status:\n***");
+			sb.append("\nDetected " + flight2Arrival.size() +" flights overall.");
+			sb.append("\nDetected " + flight2Travels.size() +" flights with booked travels.");
+			sb.append("\nDetected " + flight2Travels.values().stream()
+					.map(travels -> travels.size())
+					.reduce(0, (sum, value) -> sum + value) 
+					+ " travels overall.");
+			sb.append("\nDetected " + travel2ConnectingFlights.values().stream()
+					.map(travels -> travels.size())
+					.reduce(0, (sum, value) -> sum + value)
+					+ " intact connecting flights in travels overall.");
+			sb.append("\nDetected " + travel2DelayedConnectingFlights.values().stream()
+					.map(travels -> travels.size())
+					.reduce(0, (sum, value) -> sum + value)
+					+ " broken/delayed connecting flights in travels overall.");
+			sb.append("Detected " + travel2AlternativeConnectingFlights.values().stream()
+					.map(travels -> travels.size())
+					.reduce(0, (sum, value) -> sum + value)
+					+ " alternative connecting flights in travels overall.");
 
-		sb.append("\n***\nAppeared issues:\n***");
-		while(!issueMessages.isEmpty()) {
-			sb.append("\n"+issueMessages.poll());
+			sb.append("\n***\nAppeared issues:\n***");
+			while(!issueMessages.isEmpty()) {
+				sb.append("\n"+issueMessages.poll());
+			}
+			
+			sb.append("\n***\nAppeared events:\n***");
+			while(!infoMessages.isEmpty()) {
+				sb.append("\n"+infoMessages.poll());
+			}
+			
+			sb.append("\n***\nAppeared solutions:\n***");
+			while(!solutionMessages.isEmpty()) {
+				sb.append("\n"+solutionMessages.poll());
+			}
+			sb.append("\n***\n***");
+			System.out.println(sb.toString());
 		}
-		
-		sb.append("\n***\nAppeared events:\n***");
-		while(!infoMessages.isEmpty()) {
-			sb.append("\n"+infoMessages.poll());
-		}
-		
-		sb.append("\n***\nAppeared solutions:\n***");
-		while(!solutionMessages.isEmpty()) {
-			sb.append("\n"+solutionMessages.poll());
-		}
-		sb.append("\n***\n***");
-		System.out.println(sb.toString());
 	}
 	
+	@Override
 	public void shutdown() {
 		api.terminate();
 	}
@@ -487,27 +465,10 @@ public class FlightGTMonitor {
 			alternatives.remove(match);
 		}
 	}
-	
-	public synchronized static long calcGateDistance(final Airport airport, final Gate arrival, final Gate departure) {
-//		return (long)(airport.getSize() * getTimeInMs(Math.abs(arrival.getPosition()-departure.getPosition())));
-		return (long)(0.1 * getTimeInMs(Math.abs(arrival.getPosition()-departure.getPosition())));
-	}
-	
-	public static SortedSet<ConnectingFlightAlternativeMatch> createSortedSet() {
-		Comparator<ConnectingFlightAlternativeMatch> compare = Comparator.comparing((match)->match.getReplacementFlight().getArrival().getTime());
-		return new TreeSet<ConnectingFlightAlternativeMatch>(compare);
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public synchronized void addIssue(final GraphTransformationMatch match, final String issue) {
-		issues.add(new FlightGTIssueEvent<GraphTransformationMatch>(match, issue));
-		issueMessages.add(issue);
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public synchronized void addSolution(final GraphTransformationMatch issueMatch, final GraphTransformationMatch solutionMatch, final String solution) {
-		solutions.add(new FlightGTSolutionEvent<GraphTransformationMatch, GraphTransformationMatch>(issueMatch, solutionMatch, solution));
-		solutionMessages.add(solution);
+
+	@Override
+	public Collection<TravelHasConnectingFlightMatch> getWorkingConnectingFlightTravels() {
+		return travel2ConnectingFlights.values().stream().flatMap(set -> set.stream()).collect(Collectors.toSet());
 	}
 
 }
