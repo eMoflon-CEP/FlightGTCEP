@@ -85,8 +85,14 @@ public class FlightGTMonitor extends FlightMonitor{
 			StringBuilder sb = new StringBuilder();
 			FlightModel container = (FlightModel)api.getModel().getResources().get(0).getContents().get(0);
 			sb.append("*** Time: " + container.getGlobalTime().getTime() + "\nOverall status:\n***");
-			sb.append("\nDetected " + flight2Arrival.size() +" flights overall.");
-			sb.append("\nDetected " + flight2Travels.size() +" flights with booked travels.");
+			sb.append("\nDetected " + flight2Arrival.entrySet().stream()
+					.filter(entry -> (entry.getValue() != null))
+					.count()
+					+ " flights overall.");
+			sb.append("\nDetected " + flight2Travels.values().stream()
+					.map(travels -> travels.size())
+					.reduce(0, (sum, value) -> sum + value) 
+					+ " flights with booked travels.");
 			sb.append("\nDetected " + flight2Travels.values().stream()
 					.distinct()
 					.map(travels -> travels.size())
@@ -100,7 +106,7 @@ public class FlightGTMonitor extends FlightMonitor{
 					.map(travels -> travels.size())
 					.reduce(0, (sum, value) -> sum + value)
 					+ " broken/delayed connecting flights in travels overall.");
-			sb.append("Detected " + travel2AlternativeConnectingFlights.values().stream()
+			sb.append("\nDetected " + travel2AlternativeConnectingFlights.values().stream()
 					.map(travels -> travels.size())
 					.reduce(0, (sum, value) -> sum + value)
 					+ " alternative connecting flights in travels overall.");

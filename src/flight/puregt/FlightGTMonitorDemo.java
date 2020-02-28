@@ -14,11 +14,10 @@ public class FlightGTMonitorDemo {
 		monitor.initMatchSubscribers();
 		monitor.update(true);
 
-		
-		for(int i = 0; i<2; i++) {
-			runner.advanceTime();
+		while(runner.advanceTime()) {
 			monitor.update(true);
 		}
+		monitor.update(true);
 		
 		monitor.shutdown();
 	}
