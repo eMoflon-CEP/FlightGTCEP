@@ -3,6 +3,7 @@ package flight.test;
 import static org.junit.Assert.assertEquals;
 
 import org.emoflon.flight.model.util.LongDateHelper;
+import org.junit.After;
 import org.junit.Test;
 
 import FlightGTCEP.api.FlightGTCEPAPI;
@@ -93,6 +94,37 @@ public abstract class FlightTest {
 		assertEquals(2, monitor.getWorkingConnectingFlightTravels().size());
 		assertEquals(0, monitor.getDelayedConnectingFlightTravels().size());
 
+	}
+	
+	@Test
+	public void testAlternativeFlights1() {
+		init(instanceFolder+"/test1.xmi");
+		monitor.update(false);
+		
+		Flight flight = model.getBookings().getBookings().stream()
+							.filter(booking -> booking.getID()
+							.contains("Rick&Morty"))
+							.findAny().get().getTravels().get(0).getFlights().get(0);
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels().size());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(2, monitor.getIssues().size());
+		assertEquals(2, monitor.getSolutions().size());
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels().size());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(0, monitor.getIssues().size());
+		assertEquals(0, monitor.getSolutions().size());
+
+	}
+	
+	@After
+	public void shutdown() {
+		monitor.shutdown();
 	}
 	
 	public static void delayFlight(final Flight flight, int delayMins) {

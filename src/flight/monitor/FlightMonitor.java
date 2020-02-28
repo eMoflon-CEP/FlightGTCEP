@@ -3,11 +3,13 @@ package flight.monitor;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.emoflon.ibex.gt.api.GraphTransformationMatch;
@@ -32,13 +34,13 @@ public abstract class FlightMonitor {
 	protected LinkedBlockingQueue<String> infoMessages;
 	protected LinkedBlockingQueue<String> solutionMessages;
 	@SuppressWarnings("rawtypes")
-	protected Set<FlightIssueEvent<GraphTransformationMatch>> issues;
+	protected Map<GraphTransformationMatch, FlightIssueEvent<GraphTransformationMatch>> issues;
 	@SuppressWarnings("rawtypes")
-	protected Set<FlightSolutionEvent<GraphTransformationMatch, GraphTransformationMatch>> solutions;
+	protected Map<FlightIssueEvent<GraphTransformationMatch>, FlightSolutionEvent<GraphTransformationMatch, GraphTransformationMatch>> solutions;
 	
 	protected FlightMonitor() {
-		issues = Collections.synchronizedSet(new LinkedHashSet<>());
-		solutions = Collections.synchronizedSet(new LinkedHashSet<>());
+		issues = Collections.synchronizedMap(new LinkedHashMap<>());
+		solutions = Collections.synchronizedMap(new LinkedHashMap<>());
 		issueMessages = new LinkedBlockingQueue<>();
 		infoMessages = new LinkedBlockingQueue<>();
 		solutionMessages = new LinkedBlockingQueue<>();
@@ -83,12 +85,12 @@ public abstract class FlightMonitor {
 	
 	@SuppressWarnings("rawtypes")
 	public synchronized Set<FlightIssueEvent<GraphTransformationMatch>> getIssues() {
-		return issues;
+		return issues.values().stream().collect(Collectors.toSet());
 	}
 	
 	@SuppressWarnings("rawtypes")
 	public synchronized Set<FlightSolutionEvent<GraphTransformationMatch, GraphTransformationMatch>> getSolutions() {
-		return solutions;
+		return solutions.values().stream().collect(Collectors.toSet());
 	}
 	
 	
@@ -104,14 +106,37 @@ public abstract class FlightMonitor {
 	
 	@SuppressWarnings("rawtypes")
 	public synchronized void addIssue(final GraphTransformationMatch match, final String issue) {
-		issues.add(new FlightIssueEvent<GraphTransformationMatch>(match, issue));
+		if(issues.containsKey(match))
+			return;
+		
+		issues.put(match, new FlightIssueEvent<GraphTransformationMatch>(match, issue));
 		issueMessages.add(issue);
 	}
 	
 	@SuppressWarnings("rawtypes")
+	public synchronized void removeIssue(final GraphTransformationMatch match) {
+		FlightIssueEvent<GraphTransformationMatch> issue = issues.remove(match);
+		if(issue != null) {
+			removeSolution(issue);
+		}
+	}
+	
+	@SuppressWarnings("rawtypes")
 	public synchronized void addSolution(final GraphTransformationMatch issueMatch, final GraphTransformationMatch solutionMatch, final String solution) {
-		solutions.add(new FlightSolutionEvent<GraphTransformationMatch, GraphTransformationMatch>(issueMatch, solutionMatch, solution));
+		FlightIssueEvent<GraphTransformationMatch> issue = issues.get(issueMatch);
+		if(issue == null)
+			return;
+		if(solutions.containsKey(issue))
+			return;
+		
+		solutions.put(issue, new FlightSolutionEvent<GraphTransformationMatch, GraphTransformationMatch>(issueMatch, solutionMatch, solution));
 		solutionMessages.add(solution);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public synchronized void removeSolution(final FlightIssueEvent<GraphTransformationMatch> issue) {
+		if(solutions.containsKey(issue))
+			solutions.remove(issue);
 	}
 
 }

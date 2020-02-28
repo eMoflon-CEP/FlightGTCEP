@@ -10,4 +10,23 @@ public class FlightIssueEvent<T extends GraphTransformationMatch<?,?>>  {
 		this.issueMatch = issueMatch;
 		this.description = description;
 	}
+	
+	@Override
+	public int hashCode() {
+		return issueMatch.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof FlightIssueEvent<?>))
+			return false;
+		
+		FlightIssueEvent<?> other = (FlightIssueEvent<?>) obj;
+		return issueMatch.equals(other.issueMatch);
+	}
+	
+	@Override
+	public String toString() {
+		return description;
+	}
 }

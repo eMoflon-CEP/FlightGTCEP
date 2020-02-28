@@ -28,6 +28,18 @@
       <arrival
           time="1588670400000"/>
     </flights>
+    <flights
+        ID="FRA->BER_2"
+        travels="//@bookings/@bookings.1/@travels.0"
+        route="//@routes/@routes.0"
+        src="//@airports/@airports.0/@gates.0"
+        trg="//@airports/@airports.1/@gates.1"
+        plane="//@planes/@planes.2">
+      <departure
+          time="1588676400000"/>
+      <arrival
+          time="1588680600000"/>
+    </flights>
   </flights>
   <bookings>
     <bookings
@@ -40,6 +52,13 @@
           ID="MUC->FRA->BER_2"
           flights="//@flights/@flights.0 //@flights/@flights.1"
           person="//@persons/@persons.1"/>
+    </bookings>
+    <bookings
+        ID="Beth_FRA->BER">
+      <travels
+          ID="FRA->BER_3"
+          flights="//@flights/@flights.2"
+          person="//@persons/@persons.5"/>
     </bookings>
   </bookings>
   <persons>
@@ -56,7 +75,8 @@
     <persons
         ID="Abradolf Lincler"/>
     <persons
-        ID="Beth Smith"/>
+        ID="Beth Smith"
+        travels="//@bookings/@bookings.1/@travels.0"/>
     <persons
         ID="Birdperson"/>
     <persons
@@ -66,7 +86,7 @@
     <routes
         ID="FRA->BER"
         duration="4200000"
-        flights="//@flights/@flights.1"
+        flights="//@flights/@flights.1 //@flights/@flights.2"
         src="//@airports/@airports.0"
         trg="//@airports/@airports.1"/>
     <routes
@@ -123,6 +143,7 @@
         incomingRoutes="//@routes/@routes.1 //@routes/@routes.2">
       <gates
           ID="FRA1"
+          outgoingFlights="//@flights/@flights.2"
           incomingFlights="//@flights/@flights.0"/>
       <gates
           ID="FRA2"
@@ -141,7 +162,8 @@
           incomingFlights="//@flights/@flights.1"/>
       <gates
           ID="BER2"
-          position="1"/>
+          position="1"
+          incomingFlights="//@flights/@flights.2"/>
       <gates
           ID="BER3"
           position="2"/>
@@ -192,7 +214,8 @@
         capacity="1"/>
     <planes
         ID="EC665 Tiger"
-        capacity="2"/>
+        capacity="2"
+        flights="//@flights/@flights.2"/>
   </planes>
   <globalTime/>
 </Flights:FlightModel>

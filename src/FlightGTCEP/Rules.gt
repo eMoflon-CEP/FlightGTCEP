@@ -119,36 +119,20 @@ pattern travelHasConnectingFlight {
 pattern connectingFlightAlternative() refines travelHasConnectingFlight {
 	replacementFlight: Flight {
 		-departure->replacementDeparture
-		-route -> replacementRoute
-		-src -> replacementDepartingGate
+		-route -> connectingRoute
 	}
 	
 	replacementDeparture : TimeStamp {
 		.time > flightArrival.time
 	}
 	
-	replacementRoute: Route {
-		-trg -> targetAirport
-		-src -> transitAirport
-	}
-	
-	replacementDepartingGate: Gate
 	
 	flight: Flight {
 		-arrival->flightArrival
 	}
 	
 	flightArrival : TimeStamp
-	
-	transitAirport: Airport {
-		-gates->replacementDepartingGate
-	}
-	
-	targetAirport: Airport
-	
-	connectingRoute: Route {
-		-trg -> targetAirport
-	}
+
 
 }
 
@@ -165,7 +149,7 @@ pattern connectingFlightDirectAlternative() refines travelHasConnectingFlight{
 	}
 	
 	replacementFlight : Flight{
-		-route->replacementRoute
+		-route->connectingRoute
 	}
 	
 	replacementRoute : Route{
