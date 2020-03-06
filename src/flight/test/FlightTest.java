@@ -24,7 +24,7 @@ public abstract class FlightTest {
 	protected FlightModel model;
 	protected FlightMonitor monitor;
 	
-	protected String instanceFolder = "instances";
+	protected String instanceFolder = "../FlightGTCEP/instances";
 	
 	public abstract FlightMonitor getMonitor();
 	
@@ -41,8 +41,8 @@ public abstract class FlightTest {
 	public void testFindConnectingFlights1() {
 		init(instanceFolder+"/test1.xmi");
 		monitor.update(false);
-		assertEquals(2, monitor.getWorkingConnectingFlightTravels().size());
-		assertEquals(0, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
 	}
 	
 	@Test
@@ -54,8 +54,8 @@ public abstract class FlightTest {
 		
 		delayFlight(flight, 20);
 		monitor.update(false);
-		assertEquals(0, monitor.getWorkingConnectingFlightTravels().size());
-		assertEquals(2, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
 
 	}
 	
@@ -68,8 +68,8 @@ public abstract class FlightTest {
 		
 		promoteFlight(flight, 20);
 		monitor.update(false);
-		assertEquals(2, monitor.getWorkingConnectingFlightTravels().size());
-		assertEquals(0, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
 
 	}
 	
@@ -82,13 +82,13 @@ public abstract class FlightTest {
 		
 		delayFlight(flight, 20);
 		monitor.update(false);
-		assertEquals(0, monitor.getWorkingConnectingFlightTravels().size());
-		assertEquals(2, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
 		
 		promoteFlight(flight, 20);
 		monitor.update(false);
-		assertEquals(2, monitor.getWorkingConnectingFlightTravels().size());
-		assertEquals(0, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
 
 	}
 	
@@ -101,15 +101,15 @@ public abstract class FlightTest {
 		
 		delayFlight(flight, 20);
 		monitor.update(false);
-		assertEquals(0, monitor.getWorkingConnectingFlightTravels().size());
-		assertEquals(2, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
 		assertEquals(2, monitor.getIssues().size());
 		assertEquals(2, monitor.getSolutions().size());
 		
 		promoteFlight(flight, 20);
 		monitor.update(false);
-		assertEquals(2, monitor.getWorkingConnectingFlightTravels().size());
-		assertEquals(0, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
 		assertEquals(0, monitor.getIssues().size());
 		assertEquals(0, monitor.getSolutions().size());
 
@@ -124,8 +124,8 @@ public abstract class FlightTest {
 		
 		delayFlight(flight, 20);
 		monitor.update(false);
-		assertEquals(0, monitor.getWorkingConnectingFlightTravels().size());
-		assertEquals(2, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
 		assertEquals(2, monitor.getIssues().size());
 		assertEquals(2, monitor.getSolutions().size());
 		
@@ -138,8 +138,8 @@ public abstract class FlightTest {
 		
 		monitor.update(true);
 		
-		assertEquals(1, monitor.getWorkingConnectingFlightTravels().size());
-		assertEquals(1, monitor.getDelayedConnectingFlightTravels().size());
+		assertEquals(1, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(1, monitor.getDelayedConnectingFlightTravels());
 		assertEquals(1, monitor.getIssues().size());
 		assertEquals(0, monitor.getSolutions().size());
 		
