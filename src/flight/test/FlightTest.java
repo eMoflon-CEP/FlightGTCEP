@@ -60,6 +60,47 @@ public abstract class FlightTest {
 	}
 	
 	@Test
+	public void testDelayConnectingFlights2() {
+		init(instanceFolder+"/test1.xmi");
+		monitor.update(false);
+		
+		Flight flight = getFlight(model, "MUC->FRA_1");
+		
+		delayFlight(flight, 2);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
+	}
+	
+	@Test
+	public void testDelayConnectingFlights3() {
+		init(instanceFolder+"/test1.xmi");
+		monitor.update(false);
+		
+		Flight flight = getFlight(model, "MUC->FRA_1");
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
+	}
+	
+	@Test
 	public void testPromoteConnectingFlights1() {
 		init(instanceFolder+"/test1.xmi");
 		monitor.update(false);
@@ -71,6 +112,29 @@ public abstract class FlightTest {
 		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
 		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
 
+	}
+	
+	@Test
+	public void testPromoteConnectingFlights2() {
+		init(instanceFolder+"/test1.xmi");
+		monitor.update(false);
+		
+		Flight flight = getFlight(model, "MUC->FRA_1");
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
 	}
 	
 	@Test
@@ -90,6 +154,85 @@ public abstract class FlightTest {
 		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
 		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
 
+	}
+	
+	@Test
+	public void testDelayPromoteConnectingFlights2() {
+		init(instanceFolder+"/test1.xmi");
+		monitor.update(false);
+		
+		Flight flight = getFlight(model, "MUC->FRA_1");
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
+	}
+	
+	@Test
+	public void testDelayPromoteConnectingFlights3() {
+		init(instanceFolder+"/test1.xmi");
+		monitor.update(false);
+		
+		Flight flight = getFlight(model, "MUC->FRA_1");
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
+	}
+	
+	@Test
+	public void testDelayPromoteConnectingFlights4() {
+		init(instanceFolder+"/test1.xmi");
+		monitor.update(false);
+		
+		Flight flight = getFlight(model, "MUC->FRA_1");
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
+		
+		delayFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(0, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(2, monitor.getDelayedConnectingFlightTravels());
+		
+		promoteFlight(flight, 20);
+		monitor.update(false);
+		assertEquals(2, monitor.getWorkingConnectingFlightTravels());
+		assertEquals(0, monitor.getDelayedConnectingFlightTravels());
 	}
 	
 	@Test
