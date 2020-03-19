@@ -16,19 +16,19 @@ pattern flight() {
 	plane : Plane
 }
 
-pattern flightSrcGate() refines flight {
-	flight: Flight {
-		-src->src
-	}
-	src : Gate
-}
-
-pattern flightTrgGate() refines flight {
-	flight: Flight {
-		-trg->trg
-	}
-	trg : Gate
-}
+//pattern flightSrcGate() refines flight {
+//	flight: Flight {
+//		-src->src
+//	}
+//	src : Gate
+//}
+//
+//pattern flightTrgGate() refines flight {
+//	flight: Flight {
+//		-trg->trg
+//	}
+//	trg : Gate
+//}
 
 /*
  * track passengers in flights -> remaining capacity
@@ -44,22 +44,22 @@ pattern travelWithFlight refines flight{
 /*
  * track updated flights departure times
  */
-pattern flightWithDeparture refines flight{
-	flight: Flight {
-		-departure->departure
-	}
-	departure : TimeStamp
-}
-
-/*
- * track updated flights source airports
- */
-pattern flightWithSource refines flightWithDeparture {
-	route : Route {
-		-src->source
-	}
-	source : Airport
-}
+//pattern flightWithDeparture refines flight{
+//	flight: Flight {
+//		-departure->departure
+//	}
+//	departure : TimeStamp
+//}
+//
+///*
+// * track updated flights source airports
+// */
+//pattern flightWithSource refines flightWithDeparture {
+//	route : Route {
+//		-src->source
+//	}
+//	source : Airport
+//}
 
 /*
  * track updated flights arrival times
@@ -74,12 +74,12 @@ pattern flightWithArrival refines flight{
 /*
  * track updated flights target airports
  */
-pattern flightWithTarget refines flightWithArrival {
-	route : Route {
-		-trg->target
-	}
-	target : Airport
-}
+//pattern flightWithTarget refines flightWithArrival {
+//	route : Route {
+//		-trg->target
+//	}
+//	target : Airport
+//}
 
 
 /*
@@ -139,85 +139,85 @@ pattern connectingFlightAlternative() refines travelHasConnectingFlight {
 /* 
  * finds alternative direct flights for connecting flights
  */
-pattern connectingFlightDirectAlternative() refines travelHasConnectingFlight{
-	route : Route {
-		-src->src
-	}
-	
-	connectingRoute : Route {
-		-trg->trg
-	}
-	
-	replacementFlight : Flight{
-		-route->connectingRoute
-	}
-	
-	replacementRoute : Route{
-		-src->src
-		-trg->trg
-	}
-	
-	src : Airport
-	trg : Airport
-}
+//pattern connectingFlightDirectAlternative() refines travelHasConnectingFlight{
+//	route : Route {
+//		-src->src
+//	}
+//	
+//	connectingRoute : Route {
+//		-trg->trg
+//	}
+//	
+//	replacementFlight : Flight{
+//		-route->connectingRoute
+//	}
+//	
+//	replacementRoute : Route{
+//		-src->src
+//		-trg->trg
+//	}
+//	
+//	src : Airport
+//	trg : Airport
+//}
 
 /* 
  * finds direct flights along with their src and trg airports
  */
-pattern directFlight() refines flight{
-	travel : Travel {
-		-flights->flight
-	}
-	
-	route : Route {
-		-src->srcAirport
-		-trg->trgAirport
-	}
-	
-	srcAirport : Airport
-	trgAirport : Airport
-}
+//pattern directFlight() refines flight{
+//	travel : Travel {
+//		-flights->flight
+//	}
+//	
+//	route : Route {
+//		-src->srcAirport
+//		-trg->trgAirport
+//	}
+//	
+//	srcAirport : Airport
+//	trgAirport : Airport
+//}
 
 /* 
  * finds connected alternatives to direct flights
  */
-pattern directFlightConnectingAlternative() refines directFlight {
-	
-	transitAirport : Airport {
-		-gates->gate1Arrival
-		-gates->gate2Departure
-	}
-	
-	flight1 : Flight {
-		-route->route1
-		-trg->gate1Arrival
-		-arrival->flight1Arrival
-	}
-	
-	gate1Arrival : Gate
-	
-	
-	flight1Arrival : TimeStamp
-	
-	route1 : Route {
-		-src->srcAirport
-		-trg->transitAirport
-	}
-	
-	flight2 : Flight {
-		-route->route2
-		-src->gate2Departure
-		-departure->flight2Departure
-	}
-	
-	gate2Departure : Gate
-	
-	flight2Departure : TimeStamp {
-		.time >= flight1Arrival.time
-	}
-	
-	route2 : Route {
-		-src->transitAirport
-		-trg->trgAirport
-	}
-}
+//pattern directFlightConnectingAlternative() refines directFlight {
+//	
+//	transitAirport : Airport {
+//		-gates->gate1Arrival
+//		-gates->gate2Departure
+//	}
+//	
+//	flight1 : Flight {
+//		-route->route1
+//		-trg->gate1Arrival
+//		-arrival->flight1Arrival
+//	}
+//	
+//	gate1Arrival : Gate
+//	
+//	
+//	flight1Arrival : TimeStamp
+//	
+//	route1 : Route {
+//		-src->srcAirport
+//		-trg->transitAirport
+//	}
+//	
+//	flight2 : Flight {
+//		-route->route2
+//		-src->gate2Departure
+//		-departure->flight2Departure
+//	}
+//	
+//	gate2Departure : Gate
+//	
+//	flight2Departure : TimeStamp {
+//		.time >= flight1Arrival.time
+//	}
+//	
+//	route2 : Route {
+//		-src->transitAirport
+//		-trg->trgAirport
+//	}
+//}
