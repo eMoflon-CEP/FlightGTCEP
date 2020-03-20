@@ -3,7 +3,9 @@ Automatic-Module-Name: FlightGTCEP
 Bundle-SymbolicName: FlightGTCEP; singleton:=true
 Export-Package: FlightGTCEP.api,
  FlightGTCEP.api.matches,
- FlightGTCEP.api.rules
+ FlightGTCEP.api.rules,
+ flight.monitor,
+ flight.test
 Bundle-Name: FlightGTCEP
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.emoflon.ibex.common,
