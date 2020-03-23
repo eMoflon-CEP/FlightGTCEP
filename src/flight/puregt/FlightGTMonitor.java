@@ -67,11 +67,11 @@ public class FlightGTMonitor extends FlightMonitor{
 	@Override
 	public void initMatchSubscribers() {
 		api.flight().subscribeAppearing(this::watchAppearingFlights);
-		api.flight().subscribeDisappearing(this::watchDisappearingFlights);
+//		api.flight().subscribeDisappearing(this::watchDisappearingFlights);
 		api.flightWithArrival().subscribeAppearing(this::watchFlightArrivals);
-		api.travel().subscribeDisappearing(this::watchDisappearingTravels);
-		api.travelWithFlight().subscribeAppearing(this::watchAppearingFlightsWithTravels);
-		api.travelWithFlight().subscribeDisappearing(this::watchDisappearingFlightsWithTravels);
+//		api.travel().subscribeDisappearing(this::watchDisappearingTravels);
+//		api.travelWithFlight().subscribeAppearing(this::watchAppearingFlightsWithTravels);
+//		api.travelWithFlight().subscribeDisappearing(this::watchDisappearingFlightsWithTravels);
 		api.travelHasConnectingFlight().subscribeAppearing(this::watchAppearingConnectingFlights);
 		api.travelHasConnectingFlight().subscribeDisappearing(this::watchDisappearingConnectingFlights);
 		api.connectingFlightAlternative().subscribeAppearing(this::watchAppearingConnectingFlightAlternatives);
