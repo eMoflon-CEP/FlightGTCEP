@@ -5,7 +5,9 @@ Export-Package: FlightGTCEP.api,
  FlightGTCEP.api.matches,
  FlightGTCEP.api.rules,
  flight.monitor,
- flight.test
+ flight.puregt,
+ flight.test,
+ flight.util
 Bundle-Name: FlightGTCEP
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.emoflon.ibex.common,
