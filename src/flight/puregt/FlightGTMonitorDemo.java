@@ -1,35 +1,22 @@
 package flight.puregt;
 
 import org.emoflon.flight.scenario.EvaluationScenarioRunner;
-import org.emoflon.flight.scenario.ScenarioRunner;
 
 import flight.monitor.FlightMonitor;
 import flight.util.Runtimer;
+import hipe.generic.actor.junction.util.HiPEConfig;
 
 public class FlightGTMonitorDemo {
 
 	public static void main(String[] args) {
-//		ScenarioRunner runner = new ScenarioRunner();
-		ScenarioRunner runner = new EvaluationScenarioRunner(15);
+//		HiPEConfig.loggingActivated = true;
+		EvaluationScenarioRunner runner = new EvaluationScenarioRunner(15,1);
 		runner.initModel("../Flights/src/org/emoflon/flight/model/definitions");
 		runner.initModelEventGenerator(15, 12, 51, 0.01, 0.5);
 		
 		FlightGTMonitor monitor = new FlightGTMonitor();
 		monitor.initModelAndEngine(runner.getModel());
 		monitor.initMatchSubscribers();
-//		monitor.update(true);
-//
-//		int i = 0;
-//		while(runner.advanceTime() &&  i < 20) {
-//			monitor.update(true);
-//			i++;
-//		}
-//		
-//		monitor.update(true);
-//		
-//		System.err.println("Broken connecting flights: " + monitor.getDelayedConnectingFlightTravels());
-//		System.err.println("Working connecting flights: " + monitor.getWorkingConnectingFlightTravels());
-//		System.err.println("Issues: " + monitor.getIssues().size());
 		
 		Runtimer timer = Runtimer.getInstance();
 		timer.measure(FlightGTMonitor.class, "FlightGTRun", ()->run(monitor, runner));
@@ -39,19 +26,23 @@ public class FlightGTMonitorDemo {
 		System.out.println(timer.toString());
 	}
 	
-	public static void run(FlightMonitor monitor, ScenarioRunner runner) {
+	public static void run(FlightMonitor monitor, EvaluationScenarioRunner runner) {
+		Runtimer timer = Runtimer.getInstance();
 		monitor.update(true);
 
-		int i = 0;
-		while(runner.advanceTime() &&  i < 20) {
+		double days = 6.0;
+		double delta = 0.5;
+		boolean runnable = true;
+		while(runnable && days>0) {
+			timer.pause();
+			runnable = runner.runForDays(delta);
+			timer.resume();
+			
 			monitor.update(true);
-			i++;
+			days-=delta;
 		}
 		
 		monitor.update(true);
-//		monitor.getDelayedConnectingFlightTravels();
-//		monitor.getWorkingConnectingFlightTravels();
-//		monitor.getIssues();
 		
 		System.err.println("Broken connecting flights: " + monitor.getDelayedConnectingFlightTravels());
 		System.err.println("Working connecting flights: " + monitor.getWorkingConnectingFlightTravels());

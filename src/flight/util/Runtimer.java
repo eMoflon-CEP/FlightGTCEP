@@ -8,6 +8,7 @@ public class Runtimer {
 	private static Runtimer instance;
 	
 	private Map<Object, Map<String, Measurement>> measurements;
+	private Measurement measurement;
 
 	public static synchronized Runtimer getInstance() {
 		if(instance == null){
@@ -21,11 +22,19 @@ public class Runtimer {
 	}
 	
 	public void measure(Object o, String functionName, Runnable method) {
-		Measurement measurement = new Measurement();
+		measurement = new Measurement();
 		measurement.start();
 		method.run();
 		measurement.end();
 		addToMeasurements(o, functionName, measurement);
+	}
+	
+	public void pause() {
+		measurement.pause();
+	}
+	
+	public void resume() {
+		measurement.resume();
 	}
 	
 	public String functionReadout(Object o, String functionName) {

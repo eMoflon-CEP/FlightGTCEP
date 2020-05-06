@@ -9,6 +9,9 @@ public class Measurement {
 	
 	private double start;
 	private double end;
+	private double startPause;
+	private double endPause;
+	private double pause;
 	private long usedMemory;
 	
 	public Measurement() {
@@ -16,6 +19,7 @@ public class Measurement {
 	}
 	
 	public void start() {
+		pause = 0;
 		start = System.nanoTime();
 	}
 	
@@ -24,12 +28,22 @@ public class Measurement {
 		usedMemory = (runtime.totalMemory() - runtime.freeMemory()) / MB;
 	}
 	
+	public void pause() {
+		startPause = System.nanoTime();
+	}
+	
+	public void resume() {
+		endPause = System.nanoTime();
+		pause += endPause - startPause;
+		System.out.println("Resumed after: " + (endPause - startPause)/NANOSECONDS +"s.");
+	}
+	
 	public double durationSeconds() {
-		return (end-start)/NANOSECONDS;
+		return (end-start-pause)/NANOSECONDS;
 	}
 	
 	public double durationNanoSeconds() {
-		return end-start;
+		return end-start-pause;
 	}
 	
 	public long usedMemoryMB() {

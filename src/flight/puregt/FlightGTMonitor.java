@@ -111,20 +111,20 @@ public class FlightGTMonitor extends FlightMonitor{
 					.reduce(0, (sum, value) -> sum + value)
 					+ " alternative connecting flights in travels overall.");
 
-			sb.append("\n***\nAppeared issues:\n***");
-			while(!issueMessages.isEmpty()) {
-				sb.append("\n"+issueMessages.poll());
-			}
-			
-			sb.append("\n***\nAppeared events:\n***");
-			while(!infoMessages.isEmpty()) {
-				sb.append("\n"+infoMessages.poll());
-			}
-			
-			sb.append("\n***\nAppeared solutions:\n***");
-			while(!solutionMessages.isEmpty()) {
-				sb.append("\n"+solutionMessages.poll());
-			}
+//			sb.append("\n***\nAppeared issues:\n***");
+//			while(!issueMessages.isEmpty()) {
+//				sb.append("\n"+issueMessages.poll());
+//			}
+//			
+//			sb.append("\n***\nAppeared events:\n***");
+//			while(!infoMessages.isEmpty()) {
+//				sb.append("\n"+infoMessages.poll());
+//			}
+//			
+//			sb.append("\n***\nAppeared solutions:\n***");
+//			while(!solutionMessages.isEmpty()) {
+//				sb.append("\n"+solutionMessages.poll());
+//			}
 			sb.append("\n***\n***");
 			System.out.println(sb.toString());
 		}
